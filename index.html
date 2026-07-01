@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>iLovePhone — Business Canvas Dashboard</title>
+<style>
+  :root{
+    --brand:#E31E24; --brand-dark:#B3161B; --brand-soft:#ffe9ea;
+    --bg:#f4f5f7; --panel:#ffffff; --ink:#1f2430; --muted:#6b7280;
+    --line:#e6e8ec; --shadow:0 6px 22px rgba(20,24,40,.08);
+    --grad:linear-gradient(135deg,#E31E24,#ff5a3c);
+  }
+  [data-theme="dark"]{
+    --bg:#0f1218; --panel:#171c26; --ink:#eef1f6; --muted:#9aa3b2;
+    --line:#252c3a; --brand-soft:#2a161a; --shadow:0 6px 26px rgba(0,0,0,.45);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:-apple-system,"Segoe UI","Sukhumvit Set","Noto Sans Thai",Tahoma,sans-serif;
+    background:var(--bg);color:var(--ink);line-height:1.6;
+    transition:background .3s,color .3s;
+  }
+  .wrap{max-width:1240px;margin:0 auto;padding:0 18px}
+
+  /* Header */
+  header{
+    position:sticky;top:0;z-index:50;backdrop-filter:blur(10px);
+    background:color-mix(in srgb,var(--panel) 86%,transparent);
+    border-bottom:1px solid var(--line);
+  }
+  .hbar{display:flex;align-items:center;gap:14px;padding:12px 0}
+  .logo{
+    width:42px;height:42px;border-radius:12px;background:var(--grad);
+    display:grid;place-items:center;font-size:22px;box-shadow:var(--shadow);
+    flex-shrink:0;
+  }
+  .brand h1{font-size:18px;font-weight:800;letter-spacing:.2px}
+  .brand p{font-size:12px;color:var(--muted)}
+  .spacer{flex:1}
+  nav.tabs{display:flex;gap:6px;flex-wrap:wrap}
+  nav.tabs a{
+    font-size:13px;font-weight:600;color:var(--muted);text-decoration:none;
+    padding:7px 12px;border-radius:9px;transition:.2s;white-space:nowrap;
+  }
+  nav.tabs a:hover{color:var(--brand);background:var(--brand-soft)}
+  .toggle{
+    cursor:pointer;border:1px solid var(--line);background:var(--panel);
+    color:var(--ink);border-radius:10px;padding:8px 12px;font-size:15px;
+    transition:.2s;
+  }
+  .toggle:hover{border-color:var(--brand)}
+
+  /* Hero */
+  .hero{padding:40px 0 26px;text-align:center}
+  .hero .badge{
+    display:inline-block;background:var(--brand-soft);color:var(--brand);
+    font-weight:700;font-size:12px;padding:5px 14px;border-radius:30px;margin-bottom:14px;
+  }
+  .hero h2{font-size:30px;font-weight:800;line-height:1.25}
+  .hero h2 span{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero p{color:var(--muted);max-width:680px;margin:10px auto 0;font-size:15px}
+  .kpis{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:22px}
+  .kpi{
+    background:var(--panel);border:1px solid var(--line);border-radius:14px;
+    padding:14px 20px;min-width:140px;box-shadow:var(--shadow);
+  }
+  .kpi b{display:block;font-size:24px;color:var(--brand);font-weight:800}
+  .kpi small{color:var(--muted);font-size:12px}
+
+  /* Section */
+  section{padding:34px 0}
+  .sec-head{display:flex;align-items:baseline;gap:12px;margin-bottom:20px;flex-wrap:wrap}
+  .sec-head h3{font-size:22px;font-weight:800}
+  .sec-head .num{
+    background:var(--grad);color:#fff;font-weight:800;font-size:13px;
+    width:30px;height:30px;border-radius:9px;display:grid;place-items:center;flex-shrink:0;
+  }
+  .sec-head p{color:var(--muted);font-size:13px}
+
+  /* BMC grid */
+  .bmc{
+    display:grid;gap:12px;
+    grid-template-columns:repeat(10,1fr);
+    grid-template-areas:
+      "kp kp ka ka vp vp cr cr cs cs"
+      "kp kp kr kr vp vp ch ch cs cs"
+      "co co co co co rv rv rv rv rv";
+  }
+  .cell{
+    background:var(--panel);border:1px solid var(--line);border-radius:14px;
+    padding:14px;cursor:pointer;transition:.22s;position:relative;overflow:hidden;
+    box-shadow:var(--shadow);
+  }
+  .cell:hover{transform:translateY(-3px);border-color:var(--brand)}
+  .cell::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--grad);opacity:.85}
+  .cell .ico{font-size:20px}
+  .cell h4{font-size:13.5px;font-weight:800;margin:6px 0 8px;padding-left:2px}
+  .cell ul{list-style:none;display:flex;flex-direction:column;gap:5px}
+  .cell li{font-size:12px;color:var(--muted);display:flex;gap:6px;align-items:flex-start}
+  .cell li::before{content:"▸";color:var(--brand);font-size:11px;line-height:1.5}
+  .a-kp{grid-area:kp}.a-ka{grid-area:ka}.a-kr{grid-area:kr}.a-vp{grid-area:vp}
+  .a-cr{grid-area:cr}.a-ch{grid-area:ch}.a-cs{grid-area:cs}.a-co{grid-area:co}.a-rv{grid-area:rv}
+  .a-vp{background:linear-gradient(160deg,var(--brand-soft),var(--panel))}
+  .a-co .ico,.a-rv .ico{font-size:18px}
+
+  /* Agents */
+  .agents{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
+  .agent{
+    background:var(--panel);border:1px solid var(--line);border-radius:16px;
+    padding:16px;box-shadow:var(--shadow);transition:.22s;position:relative;
+  }
+  .agent:hover{transform:translateY(-4px)}
+  .agent .top{display:flex;align-items:center;gap:11px;margin-bottom:10px}
+  .agent .av{
+    width:46px;height:46px;border-radius:13px;display:grid;place-items:center;
+    font-size:23px;background:var(--brand-soft);flex-shrink:0;
+  }
+  .agent .name{font-weight:800;font-size:15px}
+  .agent .role{font-size:11.5px;color:var(--brand);font-weight:700}
+  .agent .duty{font-size:12.5px;color:var(--muted);margin-bottom:10px}
+  .agent .task{font-size:12px;background:var(--bg);border-radius:9px;padding:8px 10px;color:var(--ink)}
+  .agent .task b{color:var(--brand)}
+  .st{
+    position:absolute;top:14px;right:14px;font-size:10.5px;font-weight:700;
+    padding:3px 9px;border-radius:20px;
+  }
+  .st.active{background:#e7f7ed;color:#127a3e}
+  .st.wait{background:#fff4e0;color:#b46a00}
+  .st.standby{background:#eef0f4;color:#5a6472}
+  [data-theme="dark"] .st.active{background:#10331f;color:#56d98a}
+  [data-theme="dark"] .st.wait{background:#3a2c10;color:#ffc04d}
+  [data-theme="dark"] .st.standby{background:#222936;color:#9aa3b2}
+  .agent .quote{font-size:11px;font-style:italic;color:var(--muted);margin-top:9px;border-top:1px dashed var(--line);padding-top:8px}
+
+  /* Timeline */
+  .tl-tabs{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap}
+  .tl-tab{
+    border:1px solid var(--line);background:var(--panel);color:var(--muted);
+    font-weight:700;font-size:13px;padding:8px 16px;border-radius:30px;cursor:pointer;transition:.2s;
+  }
+  .tl-tab.on{background:var(--grad);color:#fff;border-color:transparent}
+  .tl-track{position:relative;padding-left:6px}
+  .tl-col{display:none;animation:fade .4s}
+  .tl-col.on{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .tl-grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
+  .tl-card{
+    background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:15px;
+    box-shadow:var(--shadow);border-left:4px solid var(--brand);position:relative;
+  }
+  .tl-card .when{font-size:11px;font-weight:800;color:var(--brand);text-transform:uppercase;letter-spacing:.5px}
+  .tl-card h5{font-size:14.5px;font-weight:800;margin:5px 0 8px}
+  .tl-card ul{list-style:none;display:flex;flex-direction:column;gap:6px}
+  .tl-card li{font-size:12.5px;color:var(--muted);display:flex;gap:7px}
+  .tl-card li::before{content:"✓";color:#1aa454;font-weight:800}
+  .tl-col.future .tl-card li::before{content:"◆";color:var(--brand)}
+  .tl-col.now .tl-card li::before{content:"⟳";color:#b46a00}
+
+  /* Modal */
+  .ov{
+    position:fixed;inset:0;background:rgba(10,12,18,.55);backdrop-filter:blur(4px);
+    display:none;place-items:center;z-index:100;padding:20px;
+  }
+  .ov.on{display:grid;animation:fade .25s}
+  .modal{
+    background:var(--panel);border-radius:18px;max-width:520px;width:100%;
+    padding:26px;box-shadow:0 30px 80px rgba(0,0,0,.4);border:1px solid var(--line);
+    max-height:86vh;overflow:auto;
+  }
+  .modal .mh{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+  .modal .mi{width:48px;height:48px;border-radius:13px;background:var(--grad);display:grid;place-items:center;font-size:24px}
+  .modal h3{font-size:19px;font-weight:800}
+  .modal .sub{font-size:12px;color:var(--muted)}
+  .modal ul{list-style:none;display:flex;flex-direction:column;gap:9px;margin-top:6px}
+  .modal li{font-size:13.5px;display:flex;gap:9px;align-items:flex-start}
+  .modal li::before{content:"●";color:var(--brand);font-size:9px;line-height:1.7}
+  .modal .x{float:right;cursor:pointer;border:none;background:var(--bg);width:34px;height:34px;border-radius:50%;font-size:18px;color:var(--ink)}
+
+  /* Workflow */
+  .wf-wrap{position:relative}
+  .wf-hub{
+    text-align:center;margin-bottom:28px;
+  }
+  .wf-hub-card{
+    display:inline-flex;align-items:center;gap:14px;
+    background:var(--grad);color:#fff;border-radius:18px;
+    padding:16px 28px;box-shadow:0 8px 30px rgba(227,30,36,.25);
+  }
+  .wf-hub-card .av{font-size:34px}
+  .wf-hub-card .info h4{font-size:17px;font-weight:800}
+  .wf-hub-card .info p{font-size:12px;opacity:.85}
+  .wf-arrow-down{
+    display:block;margin:0 auto;width:2px;height:28px;
+    background:linear-gradient(to bottom,var(--brand),var(--line));
+  }
+  .wf-lanes{
+    display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));
+  }
+  .wf-lane{
+    background:var(--panel);border:1px solid var(--line);border-radius:16px;
+    padding:18px;box-shadow:var(--shadow);position:relative;overflow:hidden;
+  }
+  .wf-lane::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;border-radius:4px 0 0 4px}
+  .wf-lane.l-ceo::before{background:var(--grad)}
+  .wf-lane.l-assign::before{background:linear-gradient(to bottom,#f59e0b,#f97316)}
+  .wf-lane.l-exec::before{background:linear-gradient(to bottom,#3b82f6,#8b5cf6)}
+  .wf-lane.l-review::before{background:linear-gradient(to bottom,#10b981,#06b6d4)}
+  .wf-lane .lane-head{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+  .wf-lane .lane-num{
+    width:28px;height:28px;border-radius:8px;display:grid;place-items:center;
+    font-size:13px;font-weight:800;color:#fff;flex-shrink:0;
+  }
+  .wf-lane.l-ceo .lane-num{background:var(--brand)}
+  .wf-lane.l-assign .lane-num{background:#f59e0b}
+  .wf-lane.l-exec .lane-num{background:#3b82f6}
+  .wf-lane.l-review .lane-num{background:#10b981}
+  .wf-lane .lane-head h4{font-size:14px;font-weight:800}
+  .wf-lane .lane-head small{font-size:11px;color:var(--muted)}
+  .wf-steps{list-style:none;display:flex;flex-direction:column;gap:8px}
+  .wf-steps li{
+    font-size:12.5px;color:var(--muted);display:flex;gap:8px;align-items:flex-start;
+  }
+  .wf-steps li .si{flex-shrink:0;font-size:14px;width:20px;text-align:center}
+  .wf-agents-flow{
+    display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;
+  }
+  .wf-chip{
+    display:inline-flex;align-items:center;gap:5px;
+    background:var(--bg);border:1px solid var(--line);border-radius:10px;
+    padding:5px 10px;font-size:11.5px;font-weight:600;
+  }
+  .wf-chip .ci{font-size:14px}
+  .wf-connector{
+    display:flex;align-items:center;justify-content:center;gap:6px;
+    padding:10px 0;color:var(--muted);font-size:12px;font-weight:600;
+  }
+  .wf-connector .arr{font-size:18px;color:var(--brand)}
+  .wf-rules{
+    display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+    margin-top:20px;
+  }
+  .wf-rule{
+    background:var(--bg);border:1px solid var(--line);border-radius:12px;
+    padding:12px 14px;font-size:12.5px;display:flex;gap:10px;align-items:flex-start;
+  }
+  .wf-rule .ri{font-size:18px;flex-shrink:0}
+  .wf-rule b{color:var(--brand);font-size:11px;display:block;margin-bottom:2px}
+
+  footer{text-align:center;padding:30px 0 50px;color:var(--muted);font-size:12px;border-top:1px solid var(--line);margin-top:20px}
+  footer b{color:var(--brand)}
+
+  @media(max-width:860px){
+    .bmc{grid-template-columns:repeat(2,1fr);grid-template-areas:
+      "kp ka" "kr vp" "cr ch" "cs cs" "co co" "rv rv";}
+    nav.tabs{display:none}
+    .hero h2{font-size:24px}
+  }
+</style>
+</head>
+<body data-theme="light">
+
+<header>
+  <div class="wrap hbar">
+    <div class="logo">📱</div>
+    <div class="brand">
+      <h1>iLovePhone <span style="color:var(--brand)">Business Canvas</span></h1>
+      <p>เลิฟโฟน กรุ๊ป จำกัด · เชียงใหม่ · บริการคือหัวใจ</p>
+    </div>
+    <div class="spacer"></div>
+    <nav class="tabs">
+      <a href="#canvas">Business Model</a>
+      <a href="#agents">AI Command Center</a>
+      <a href="#workflow">Team Workflow</a>
+      <a href="#timeline">Timeline</a>
+    </nav>
+    <button class="toggle" id="tg" title="สลับโหมดสว่าง/มืด">🌙</button>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- HERO -->
+  <div class="hero">
+    <span class="badge">📊 Executive Dashboard · มองภาพรวมธุรกิจในหน้าเดียว</span>
+    <h2>ภาพรวมธุรกิจ <span>iLovePhone</span><br>โมเดล · ทีม AI · เส้นทางการเติบโต</h2>
+    <p>ตั้งแต่ขายมือถือหน้าร้าน สู่ระบบนิเวศบริการครบวงจร — ขับเคลื่อนด้วยทีม AI Agent ระดับ C-level เพื่อขยายสาขาทั่วประเทศอย่างมีมาตรฐานเดียวกัน</p>
+    <div class="kpis">
+      <div class="kpi"><b>2,969</b><small>ชุดความรู้ใน KB (Pinecone)</small></div>
+      <div class="kpi"><b>24/7</b><small>LINE Bot บน Render (ไม่หลับ)</small></div>
+      <div class="kpi"><b>6</b><small>AI Agent ระดับ C-level</small></div>
+      <div class="kpi"><b>7+</b><small>สายธุรกิจหลัก</small></div>
+    </div>
+  </div>
+
+  <!-- SECTION 1: BMC -->
+  <section id="canvas">
+    <div class="sec-head">
+      <div class="num">01</div>
+      <div>
+        <h3>Business Model Canvas</h3>
+        <p>9 องค์ประกอบของโมเดลธุรกิจ iLovePhone — คลิกแต่ละช่องเพื่อดูรายละเอียดเชิงลึก</p>
+      </div>
+    </div>
+
+    <div class="bmc" id="bmc"></div>
+  </section>
+
+  <!-- SECTION 2: AGENTS -->
+  <section id="agents">
+    <div class="sec-head">
+      <div class="num">02</div>
+      <div>
+        <h3>AI Agent Command Center</h3>
+        <p>ทีม Sub-Agent ระดับ C-level (CEO อนุมัติ 25 มิ.ย. 2026) · ประสานงานโดย น้องเลิฟ</p>
+      </div>
+    </div>
+    <div class="agents" id="agentGrid"></div>
+  </section>
+
+  <!-- SECTION 3: TEAM WORKFLOW — Visual Flowchart -->
+  <section id="workflow">
+    <div class="sec-head">
+      <div class="num">03</div>
+      <div>
+        <h3>ผังการทำงานของทีม</h3>
+        <p>กระบวนการรับงาน → มอบหมาย → ลงมือทำ → ส่งมอบ · ประสานงานโดย น้องเลิฟ (Orchestrator) · ออกแบบโดย CMO·ปัง 🎨</p>
+      </div>
+    </div>
+
+    <div style="background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:28px 16px;box-shadow:var(--shadow);overflow-x:auto">
+      <svg id="wfChart" viewBox="0 0 1200 820" style="width:100%;max-width:1200px;margin:0 auto;display:block;font-family:-apple-system,'Sukhumvit Set','Noto Sans Thai',sans-serif">
+        <defs>
+          <linearGradient id="gRed" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#E31E24"/><stop offset="100%" stop-color="#ff5a3c"/></linearGradient>
+          <linearGradient id="gBlue" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#3b82f6"/><stop offset="100%" stop-color="#8b5cf6"/></linearGradient>
+          <linearGradient id="gGreen" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#10b981"/><stop offset="100%" stop-color="#06b6d4"/></linearGradient>
+          <linearGradient id="gOrange" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#f59e0b"/><stop offset="100%" stop-color="#f97316"/></linearGradient>
+          <linearGradient id="gPink" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#ec4899"/><stop offset="100%" stop-color="#E31E24"/></linearGradient>
+          <filter id="shadow1"><feDropShadow dx="0" dy="4" stdDeviation="8" flood-opacity=".1"/></filter>
+          <filter id="shadow2"><feDropShadow dx="0" dy="2" stdDeviation="4" flood-opacity=".12"/></filter>
+          <marker id="arrowRed" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#E31E24"/></marker>
+          <marker id="arrowBlue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#3b82f6"/></marker>
+          <marker id="arrowGreen" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#10b981"/></marker>
+          <marker id="arrowOrange" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#f59e0b"/></marker>
+        </defs>
+
+        <!-- ===== ROW 1: CEO ===== -->
+        <rect x="440" y="16" width="320" height="76" rx="20" fill="url(#gRed)" filter="url(#shadow1)"/>
+        <text x="530" y="48" fill="#fff" font-size="15" font-weight="800">👔 CEO</text>
+        <text x="530" y="72" fill="rgba(255,255,255,.8)" font-size="12">สั่งงานผ่าน Telegram / LINE / Voice</text>
+        <text x="462" y="56" font-size="28">🎯</text>
+
+        <!-- Arrow CEO → น้องเลิฟ -->
+        <line x1="600" y1="92" x2="600" y2="140" stroke="#E31E24" stroke-width="3" marker-end="url(#arrowRed)" stroke-dasharray="8 4">
+          <animate attributeName="stroke-dashoffset" from="24" to="0" dur="1.5s" repeatCount="indefinite"/>
+        </line>
+
+        <!-- ===== ROW 2: น้องเลิฟ (Orchestrator) ===== -->
+        <rect x="370" y="142" width="460" height="86" rx="22" fill="var(--panel,#fff)" stroke="#E31E24" stroke-width="2.5" filter="url(#shadow1)"/>
+        <rect x="370" y="142" width="460" height="86" rx="22" fill="url(#gPink)" opacity=".07"/>
+        <text x="440" y="174" fill="var(--ink,#1f2430)" font-size="16" font-weight="800">📱 น้องเลิฟ — Orchestrator</text>
+        <text x="440" y="196" fill="var(--muted,#6b7280)" font-size="12">วิเคราะห์งาน → แตก task → มอบหมาย Agent → ติดตาม → QA → รายงาน CEO</text>
+        <text x="440" y="216" fill="#E31E24" font-size="11" font-weight="700">บันทึกทุกงานใน _INDEX.md · ไม่มีงานไร้เจ้าของ</text>
+        <text x="392" y="192" font-size="32">❤️</text>
+
+        <!-- Arrows น้องเลิฟ → 6 Agents (fan-out) -->
+        <!-- CFO -->
+        <path d="M440,228 Q440,266 160,266 L160,310" fill="none" stroke="#f59e0b" stroke-width="2" marker-end="url(#arrowOrange)" opacity=".7"/>
+        <!-- COO -->
+        <path d="M480,228 L340,310" fill="none" stroke="#3b82f6" stroke-width="2" marker-end="url(#arrowBlue)" opacity=".7"/>
+        <!-- CTO -->
+        <path d="M540,228 L520,310" fill="none" stroke="#8b5cf6" stroke-width="2" marker-end="url(#arrowBlue)" opacity=".7"/>
+        <!-- CMO -->
+        <path d="M660,228 L680,310" fill="none" stroke="#ec4899" stroke-width="2" marker-end="url(#arrowRed)" opacity=".7"/>
+        <!-- Growth -->
+        <path d="M720,228 L860,310" fill="none" stroke="#10b981" stroke-width="2" marker-end="url(#arrowGreen)" opacity=".7"/>
+        <!-- Legal -->
+        <path d="M760,228 Q760,266 1040,266 L1040,310" fill="none" stroke="#6b7280" stroke-width="2" marker-end="url(#arrowBlue)" opacity=".7"/>
+
+        <!-- ===== ROW 3: 6 Agents ===== -->
+        <!-- CFO·ร่ำรวย -->
+        <rect x="68" y="312" width="184" height="100" rx="16" fill="var(--panel,#fff)" stroke="#f59e0b" stroke-width="2" filter="url(#shadow2)"/>
+        <text x="90" y="344" font-size="13" font-weight="800" fill="var(--ink,#1f2430)">💰 CFO · ร่ำรวย</text>
+        <text x="90" y="364" font-size="11" fill="var(--muted,#6b7280)">การเงิน · Cash Flow · ROI</text>
+        <text x="90" y="384" font-size="11" fill="var(--muted,#6b7280)">ต้นทุน · กำไร · ราคา</text>
+        <rect x="90" y="394" width="50" height="6" rx="3" fill="#f59e0b" opacity=".5"/>
+
+        <!-- COO·ระเบียบ -->
+        <rect x="262" y="312" width="184" height="100" rx="16" fill="var(--panel,#fff)" stroke="#3b82f6" stroke-width="2" filter="url(#shadow2)"/>
+        <text x="284" y="344" font-size="13" font-weight="800" fill="var(--ink,#1f2430)">📋 COO · ระเบียบ</text>
+        <text x="284" y="364" font-size="11" fill="var(--muted,#6b7280)">ปฏิบัติการ · SOP</text>
+        <text x="284" y="384" font-size="11" fill="var(--muted,#6b7280)">มาตรฐานสาขา · ติดตั้ง</text>
+        <rect x="284" y="394" width="50" height="6" rx="3" fill="#3b82f6" opacity=".5"/>
+
+        <!-- CTO·โค้ด -->
+        <rect x="456" y="312" width="184" height="100" rx="16" fill="var(--panel,#fff)" stroke="#8b5cf6" stroke-width="2" filter="url(#shadow2)"/>
+        <text x="478" y="344" font-size="13" font-weight="800" fill="var(--ink,#1f2430)">💻 CTO · โค้ด</text>
+        <text x="478" y="364" font-size="11" fill="var(--muted,#6b7280)">เทคนิค · บอต · Server</text>
+        <text x="478" y="384" font-size="11" fill="var(--muted,#6b7280)">Automation · DNS</text>
+        <rect x="478" y="394" width="50" height="6" rx="3" fill="#8b5cf6" opacity=".5"/>
+
+        <!-- CMO·ปัง -->
+        <rect x="650" y="312" width="184" height="100" rx="16" fill="var(--panel,#fff)" stroke="#ec4899" stroke-width="2" filter="url(#shadow2)"/>
+        <text x="672" y="344" font-size="13" font-weight="800" fill="var(--ink,#1f2430)">🎨 CMO · ปัง</text>
+        <text x="672" y="364" font-size="11" fill="var(--muted,#6b7280)">การตลาด · คอนเทนต์</text>
+        <text x="672" y="384" font-size="11" fill="var(--muted,#6b7280)">แบรนด์ · โซเชียล</text>
+        <rect x="672" y="394" width="50" height="6" rx="3" fill="#ec4899" opacity=".5"/>
+
+        <!-- Growth·ไกล -->
+        <rect x="844" y="312" width="184" height="100" rx="16" fill="var(--panel,#fff)" stroke="#10b981" stroke-width="2" filter="url(#shadow2)"/>
+        <text x="866" y="344" font-size="13" font-weight="800" fill="var(--ink,#1f2430)">🚀 Growth · ไกล</text>
+        <text x="866" y="364" font-size="11" fill="var(--muted,#6b7280)">กลยุทธ์ · ขยายสาขา</text>
+        <text x="866" y="384" font-size="11" fill="var(--muted,#6b7280)">แฟรนไชส์ · Roadmap</text>
+        <rect x="866" y="394" width="50" height="6" rx="3" fill="#10b981" opacity=".5"/>
+
+        <!-- Legal·กันชน -->
+        <rect x="1038" y="312" width="150" height="100" rx="16" fill="var(--panel,#fff)" stroke="#6b7280" stroke-width="2" filter="url(#shadow2)"/>
+        <text x="1056" y="344" font-size="13" font-weight="800" fill="var(--ink,#1f2430)">🛡️ Legal · กันชน</text>
+        <text x="1056" y="364" font-size="11" fill="var(--muted,#6b7280)">กฎหมาย · สัญญา</text>
+        <text x="1056" y="384" font-size="11" fill="var(--muted,#6b7280)">ความเสี่ยง · PDPA</text>
+        <rect x="1056" y="394" width="50" height="6" rx="3" fill="#6b7280" opacity=".5"/>
+
+        <!-- "ทำงาน parallel" label -->
+        <rect x="16" y="340" width="44" height="44" rx="22" fill="url(#gBlue)" opacity=".15"/>
+        <text x="26" y="368" font-size="22">⚡</text>
+        <text x="12" y="400" font-size="9" fill="var(--muted,#6b7280)" font-weight="700">Parallel</text>
+
+        <!-- ===== Arrows Agents → Output ===== -->
+        <line x1="160" y1="412" x2="160" y2="470" stroke="#f59e0b" stroke-width="1.5" opacity=".5"/>
+        <line x1="354" y1="412" x2="354" y2="470" stroke="#3b82f6" stroke-width="1.5" opacity=".5"/>
+        <line x1="548" y1="412" x2="548" y2="470" stroke="#8b5cf6" stroke-width="1.5" opacity=".5"/>
+        <line x1="742" y1="412" x2="742" y2="470" stroke="#ec4899" stroke-width="1.5" opacity=".5"/>
+        <line x1="936" y1="412" x2="936" y2="470" stroke="#10b981" stroke-width="1.5" opacity=".5"/>
+        <line x1="1113" y1="412" x2="1113" y2="470" stroke="#6b7280" stroke-width="1.5" opacity=".5"/>
+
+        <!-- ===== ROW 4: Output Storage ===== -->
+        <rect x="68" y="472" width="1120" height="60" rx="16" fill="var(--bg,#f4f5f7)" stroke="var(--line,#e6e8ec)" stroke-width="1.5"/>
+        <text x="100" y="500" font-size="14" font-weight="800" fill="var(--ink,#1f2430)">📁 Output: ~/Desktop/Ai Agent/&lt;project&gt;/</text>
+        <text x="100" y="518" font-size="11" fill="var(--muted,#6b7280)">ทุก output จัดเก็บเป็นโฟลเดอร์ต่อโปรเจกต์ · แผน · วิเคราะห์ · โค้ด · คอนเทนต์ · กฎหมาย</text>
+        <text x="960" y="508" font-size="12" fill="#E31E24" font-weight="700">+ บันทึก _INDEX.md</text>
+
+        <!-- Arrow Output → QA -->
+        <line x1="600" y1="532" x2="600" y2="574" stroke="#10b981" stroke-width="3" marker-end="url(#arrowGreen)" stroke-dasharray="8 4">
+          <animate attributeName="stroke-dashoffset" from="24" to="0" dur="1.5s" repeatCount="indefinite"/>
+        </line>
+
+        <!-- ===== ROW 5: QA + Deliver ===== -->
+        <rect x="320" y="576" width="560" height="76" rx="20" fill="url(#gGreen)" filter="url(#shadow1)"/>
+        <text x="400" y="608" fill="#fff" font-size="15" font-weight="800">✅ QA + ส่งมอบ</text>
+        <text x="400" y="630" fill="rgba(255,255,255,.85)" font-size="12">น้องเลิฟตรวจงาน → สรุปผล → Agent รายงานด้วยคาแรกเตอร์ → อัปเดต Dashboard</text>
+        <text x="342" y="620" font-size="28">📊</text>
+
+        <!-- Arrow QA → CEO (loop back) -->
+        <path d="M600,652 L600,686 Q600,706 580,706 L280,706 Q260,706 260,686 L260,54 Q260,34 280,34 L432,34" fill="none" stroke="#E31E24" stroke-width="2.5" marker-end="url(#arrowRed)" stroke-dasharray="10 5" opacity=".6">
+          <animate attributeName="stroke-dashoffset" from="30" to="0" dur="2s" repeatCount="indefinite"/>
+        </path>
+        <rect x="90" y="692" width="170" height="26" rx="13" fill="url(#gRed)" opacity=".12"/>
+        <text x="104" y="710" font-size="11" font-weight="700" fill="#E31E24">🔄 Feedback Loop → CEO</text>
+
+        <!-- ===== RULES BAR ===== -->
+        <rect x="68" y="746" width="1120" height="62" rx="14" fill="var(--panel,#fff)" stroke="var(--line,#e6e8ec)" stroke-width="1"/>
+        <text x="100" y="770" font-size="12" font-weight="800" fill="var(--ink,#1f2430)">📌 กฎสำคัญ:</text>
+        <text x="200" y="770" font-size="11" fill="var(--muted,#6b7280)">🔒 งานเสี่ยงต้องยืนยัน CEO</text>
+        <text x="400" y="770" font-size="11" fill="var(--muted,#6b7280)">📋 ทุกงานมีเจ้าของใน _INDEX.md</text>
+        <text x="630" y="770" font-size="11" fill="var(--muted,#6b7280)">🎭 Agent รายงานด้วยคาแรกเตอร์</text>
+        <text x="880" y="770" font-size="11" fill="var(--muted,#6b7280)">🤫 ข้อมูล % = ภายในเท่านั้น</text>
+        <text x="200" y="794" font-size="11" fill="var(--muted,#6b7280)">🚀 CMO+CTO ทำ Academy อิสระ</text>
+        <text x="460" y="794" font-size="11" fill="var(--muted,#6b7280)">📂 Output เก็บ ~/Desktop/Ai Agent/</text>
+        <text x="720" y="794" font-size="11" fill="var(--muted,#6b7280)">⚡ หลาย Agent ทำงานพร้อมกันได้ (Parallel)</text>
+      </svg>
+    </div>
+  </section>
+
+  <!-- SECTION 4: TIMELINE — Visual SVG -->
+  <section id="timeline">
+    <div class="sec-head">
+      <div class="num">04</div>
+      <div>
+        <h3>Timeline — อดีต · ปัจจุบัน · อนาคต</h3>
+        <p>จากรากฐานที่วางแล้ว สู่งานที่กำลังเดิน และวิสัยทัศน์ระยะ 1–5 ปี · ออกแบบโดย CMO·ปัง 🎨</p>
+      </div>
+    </div>
+
+    <div style="background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:28px 16px;box-shadow:var(--shadow);overflow-x:auto">
+      <svg viewBox="0 0 1200 1100" style="width:100%;max-width:1200px;margin:0 auto;display:block;font-family:-apple-system,'Sukhumvit Set','Noto Sans Thai',sans-serif">
+        <defs>
+          <linearGradient id="tlRed" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#E31E24"/><stop offset="100%" stop-color="#ff5a3c"/></linearGradient>
+          <linearGradient id="tlBlue" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#3b82f6"/><stop offset="100%" stop-color="#8b5cf6"/></linearGradient>
+          <linearGradient id="tlGreen" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#10b981"/><stop offset="100%" stop-color="#06b6d4"/></linearGradient>
+          <linearGradient id="tlOrange" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#f59e0b"/><stop offset="100%" stop-color="#f97316"/></linearGradient>
+          <linearGradient id="tlPurple" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#8b5cf6"/><stop offset="100%" stop-color="#a855f7"/></linearGradient>
+          <filter id="tls"><feDropShadow dx="0" dy="3" stdDeviation="6" flood-opacity=".1"/></filter>
+        </defs>
+
+        <!-- ===== SECTION HEADER: อดีต ===== -->
+        <rect x="40" y="10" width="200" height="38" rx="19" fill="url(#tlGreen)"/>
+        <text x="74" y="35" fill="#fff" font-size="14" font-weight="800">🏆 สำเร็จแล้ว</text>
+
+        <!-- Central spine -->
+        <line x1="600" y1="60" x2="600" y2="540" stroke="var(--line,#e6e8ec)" stroke-width="3" stroke-dasharray="6 4"/>
+
+        <!-- Milestone 1: พ.ค.–มิ.ย. — LEFT -->
+        <circle cx="600" cy="90" r="14" fill="url(#tlGreen)"/>
+        <text x="608" y="95" font-size="12" fill="#fff" font-weight="800" text-anchor="middle">1</text>
+        <line x1="586" y1="90" x2="420" y2="90" stroke="#10b981" stroke-width="2"/>
+        <rect x="80" y="62" width="340" height="76" rx="14" fill="var(--panel,#fff)" stroke="#10b981" stroke-width="1.5" filter="url(#tls)"/>
+        <rect x="80" y="62" width="5" height="76" rx="3" fill="#10b981"/>
+        <text x="100" y="84" font-size="11" font-weight="800" fill="#10b981">พ.ค.–มิ.ย. 2026</text>
+        <text x="100" y="102" font-size="13" font-weight="800" fill="var(--ink,#1f2430)">🧱 รากฐาน AI Chatbot</text>
+        <text x="100" y="120" font-size="11" fill="var(--muted,#6b7280)">✓ วางสถาปัตยกรรม LINE-first + n8n MVP</text>
+        <text x="100" y="134" font-size="11" fill="var(--muted,#6b7280)">✓ ออกแบบ schema lead + intent router</text>
+
+        <!-- Milestone 2: 24 มิ.ย. — RIGHT -->
+        <circle cx="600" cy="170" r="14" fill="url(#tlGreen)"/>
+        <text x="608" y="175" font-size="12" fill="#fff" font-weight="800" text-anchor="middle">2</text>
+        <line x1="614" y1="170" x2="780" y2="170" stroke="#10b981" stroke-width="2"/>
+        <rect x="780" y="142" width="340" height="76" rx="14" fill="var(--panel,#fff)" stroke="#10b981" stroke-width="1.5" filter="url(#tls)"/>
+        <rect x="1115" y="142" width="5" height="76" rx="3" fill="#10b981"/>
+        <text x="800" y="164" font-size="11" font-weight="800" fill="#10b981">24 มิ.ย. 2026</text>
+        <text x="800" y="182" font-size="13" font-weight="800" fill="var(--ink,#1f2430)">📁 ตั้งโปรเจกต์ + ราคากลาง</text>
+        <text x="800" y="200" font-size="11" fill="var(--muted,#6b7280)">✓ Source of truth + daily-notes + ingest KB</text>
+        <text x="800" y="214" font-size="11" fill="var(--muted,#6b7280)">✓ ราคากลางทางการ 2,406 รายการ</text>
+
+        <!-- Milestone 3: 25 มิ.ย. — LEFT -->
+        <circle cx="600" cy="250" r="14" fill="url(#tlGreen)"/>
+        <text x="608" y="255" font-size="12" fill="#fff" font-weight="800" text-anchor="middle">3</text>
+        <line x1="586" y1="250" x2="420" y2="250" stroke="#10b981" stroke-width="2"/>
+        <rect x="80" y="222" width="340" height="76" rx="14" fill="var(--panel,#fff)" stroke="#10b981" stroke-width="1.5" filter="url(#tls)"/>
+        <rect x="80" y="222" width="5" height="76" rx="3" fill="#10b981"/>
+        <text x="100" y="244" font-size="11" font-weight="800" fill="#10b981">25 มิ.ย. 2026</text>
+        <text x="100" y="262" font-size="13" font-weight="800" fill="var(--ink,#1f2430)">☁️ ขึ้น Cloud สมบูรณ์ + ตั้งทีม</text>
+        <text x="100" y="280" font-size="11" fill="var(--muted,#6b7280)">✓ server.js Deploy Render (ไม่หลับ) · KB 2,969 vectors</text>
+        <text x="100" y="294" font-size="11" fill="var(--muted,#6b7280)">✓ CEO อนุมัติ roster 6 AI Agent + คาแรกเตอร์</text>
+
+        <!-- Milestone 4: 27–28 มิ.ย. — RIGHT -->
+        <circle cx="600" cy="330" r="14" fill="url(#tlGreen)"/>
+        <text x="608" y="335" font-size="12" fill="#fff" font-weight="800" text-anchor="middle">4</text>
+        <line x1="614" y1="330" x2="780" y2="330" stroke="#10b981" stroke-width="2"/>
+        <rect x="780" y="302" width="340" height="76" rx="14" fill="var(--panel,#fff)" stroke="#10b981" stroke-width="1.5" filter="url(#tls)"/>
+        <rect x="1115" y="302" width="5" height="76" rx="3" fill="#10b981"/>
+        <text x="800" y="324" font-size="11" font-weight="800" fill="#10b981">27–28 มิ.ย. 2026</text>
+        <text x="800" y="342" font-size="13" font-weight="800" fill="var(--ink,#1f2430)">🌐 Academy + Handoff + Lead Capture</text>
+        <text x="800" y="360" font-size="11" fill="var(--muted,#6b7280)">✓ academy.lovephonegroup.com LIVE (WordPress)</text>
+        <text x="800" y="374" font-size="11" fill="var(--muted,#6b7280)">✓ Handoff ส่งต่อแอดมิน LIVE · Lead → Google Sheet</text>
+
+        <!-- Milestone 5: 29 มิ.ย. — LEFT -->
+        <circle cx="600" cy="410" r="14" fill="url(#tlGreen)"/>
+        <text x="608" y="415" font-size="12" fill="#fff" font-weight="800" text-anchor="middle">5</text>
+        <line x1="586" y1="410" x2="420" y2="410" stroke="#10b981" stroke-width="2"/>
+        <rect x="80" y="382" width="340" height="90" rx="14" fill="var(--panel,#fff)" stroke="#10b981" stroke-width="1.5" filter="url(#tls)"/>
+        <rect x="80" y="382" width="5" height="90" rx="3" fill="#10b981"/>
+        <text x="100" y="404" font-size="11" font-weight="800" fill="#10b981">29 มิ.ย. 2026 (วันนี้)</text>
+        <text x="100" y="422" font-size="13" font-weight="800" fill="var(--ink,#1f2430)">💼 Partner Accounting + FB Messenger</text>
+        <text x="100" y="440" font-size="11" fill="var(--muted,#6b7280)">✓ ระบบบัญชีพาร์ตเนอร์ (89 พลาซ่า) + ARCHITECTURE</text>
+        <text x="100" y="454" font-size="11" fill="var(--muted,#6b7280)">✓ บทความ Academy Published + FB Messenger setup</text>
+        <text x="100" y="468" font-size="11" fill="var(--muted,#6b7280)">✓ Business Canvas Dashboard + Team Workflow Chart</text>
+
+        <!-- ===== DIVIDER ===== -->
+        <rect x="40" y="500" width="200" height="38" rx="19" fill="url(#tlOrange)"/>
+        <text x="74" y="525" fill="#fff" font-size="14" font-weight="800">⚙️ กำลังทำ</text>
+        <line x1="600" y1="550" x2="600" y2="750" stroke="var(--line,#e6e8ec)" stroke-width="3" stroke-dasharray="6 4"/>
+
+        <!-- Now 1: ปิดเดือน — RIGHT -->
+        <circle cx="600" cy="580" r="14" fill="url(#tlOrange)"/>
+        <text x="600" y="585" font-size="16" text-anchor="middle">⟳</text>
+        <line x1="614" y1="580" x2="780" y2="580" stroke="#f59e0b" stroke-width="2"/>
+        <rect x="780" y="552" width="340" height="76" rx="14" fill="var(--panel,#fff)" stroke="#f59e0b" stroke-width="1.5" filter="url(#tls)"/>
+        <rect x="1115" y="552" width="5" height="76" rx="3" fill="#f59e0b"/>
+        <text x="800" y="574" font-size="11" font-weight="800" fill="#f59e0b">30 มิ.ย. 2026 (พรุ่งนี้)</text>
+        <text x="800" y="592" font-size="13" font-weight="800" fill="var(--ink,#1f2430)">📊 ปิดเดือน มิ.ย. + ปลดบอทเก่า FB</text>
+        <text x="800" y="610" font-size="11" fill="var(--muted,#6b7280)">⟳ รับข้อมูลปิดเดือน 89 พลาซ่า (เหลือ 2 จุด)</text>
+        <text x="800" y="624" font-size="11" fill="var(--muted,#6b7280)">⟳ ปลดบอทตัวเก่าออกจากเพจ FB → เปิดทาง webhook</text>
+
+        <!-- Now 2: OHO Migration — LEFT -->
+        <circle cx="600" cy="660" r="14" fill="url(#tlOrange)"/>
+        <text x="600" y="665" font-size="16" text-anchor="middle">⟳</text>
+        <line x1="586" y1="660" x2="420" y2="660" stroke="#f59e0b" stroke-width="2"/>
+        <rect x="80" y="632" width="340" height="76" rx="14" fill="var(--panel,#fff)" stroke="#f59e0b" stroke-width="1.5" filter="url(#tls)"/>
+        <rect x="80" y="632" width="5" height="76" rx="3" fill="#f59e0b"/>
+        <text x="100" y="654" font-size="11" font-weight="800" fill="#f59e0b">รอเริ่ม</text>
+        <text x="100" y="672" font-size="13" font-weight="800" fill="var(--ink,#1f2430)">🔄 OHO Migration + App Review</text>
+        <text x="100" y="690" font-size="11" fill="var(--muted,#6b7280)">⟳ ย้าย @ilovephone (15k) มาบอตใหม่ผ่าน OHO</text>
+        <text x="100" y="704" font-size="11" fill="var(--muted,#6b7280)">⟳ FB App Review pages_messaging (2-5 วัน)</text>
+
+        <!-- ===== DIVIDER ===== -->
+        <rect x="40" y="760" width="200" height="38" rx="19" fill="url(#tlPurple)"/>
+        <text x="74" y="785" fill="#fff" font-size="14" font-weight="800">🌏 แผนอนาคต</text>
+        <line x1="600" y1="810" x2="600" y2="1080" stroke="var(--line,#e6e8ec)" stroke-width="3" stroke-dasharray="6 4"/>
+
+        <!-- Future 1: 1 ปี — RIGHT -->
+        <circle cx="600" cy="840" r="14" fill="url(#tlPurple)"/>
+        <text x="600" y="845" font-size="16" text-anchor="middle">◆</text>
+        <line x1="614" y1="840" x2="780" y2="840" stroke="#8b5cf6" stroke-width="2"/>
+        <rect x="780" y="812" width="340" height="76" rx="14" fill="var(--panel,#fff)" stroke="#8b5cf6" stroke-width="1.5" filter="url(#tls)"/>
+        <rect x="1115" y="812" width="5" height="76" rx="3" fill="#8b5cf6"/>
+        <text x="800" y="834" font-size="11" font-weight="800" fill="#8b5cf6">ระยะ 1 ปี</text>
+        <text x="800" y="852" font-size="13" font-weight="800" fill="var(--ink,#1f2430)">📐 ปักหมุดมาตรฐาน</text>
+        <text x="800" y="870" font-size="11" fill="var(--muted,#6b7280)">◆ SOP สาขาทำซ้ำได้เป๊ะ · AI Bot ครบทุก use-case</text>
+        <text x="800" y="884" font-size="11" fill="var(--muted,#6b7280)">◆ ปิด OHO migration · Dashboard การเงินเรียลไทม์</text>
+
+        <!-- Future 2: 3 ปี — LEFT -->
+        <circle cx="600" cy="920" r="14" fill="url(#tlPurple)"/>
+        <text x="600" y="925" font-size="16" text-anchor="middle">◆</text>
+        <line x1="586" y1="920" x2="420" y2="920" stroke="#8b5cf6" stroke-width="2"/>
+        <rect x="80" y="892" width="340" height="76" rx="14" fill="var(--panel,#fff)" stroke="#8b5cf6" stroke-width="1.5" filter="url(#tls)"/>
+        <rect x="80" y="892" width="5" height="76" rx="3" fill="#8b5cf6"/>
+        <text x="100" y="914" font-size="11" font-weight="800" fill="#8b5cf6">ระยะ 3 ปี</text>
+        <text x="100" y="932" font-size="13" font-weight="800" fill="var(--ink,#1f2430)">🏪 ขยายเครือข่าย</text>
+        <text x="100" y="950" font-size="11" fill="var(--muted,#6b7280)">◆ แฟรนไชส์หลายจังหวัด · ระบบบริหารร้านขายได้</text>
+        <text x="100" y="964" font-size="11" fill="var(--muted,#6b7280)">◆ Academy ป้อนช่าง · Solar สายรายได้ชัดเจน</text>
+
+        <!-- Future 3: 5 ปี — RIGHT -->
+        <circle cx="600" cy="1010" r="14" fill="url(#tlRed)"/>
+        <text x="600" y="1015" font-size="16" text-anchor="middle">⭐</text>
+        <line x1="614" y1="1010" x2="780" y2="1010" stroke="#E31E24" stroke-width="2.5"/>
+        <rect x="780" y="978" width="340" height="86" rx="14" fill="var(--panel,#fff)" stroke="#E31E24" stroke-width="2" filter="url(#tls)"/>
+        <rect x="780" y="978" width="340" height="86" rx="14" fill="url(#tlRed)" opacity=".05"/>
+        <rect x="1115" y="978" width="5" height="86" rx="3" fill="#E31E24"/>
+        <text x="800" y="1000" font-size="11" font-weight="800" fill="#E31E24">ระยะ 5 ปี · วิสัยทัศน์</text>
+        <text x="800" y="1020" font-size="14" font-weight="800" fill="var(--ink,#1f2430)">🌏 แบรนด์ที่ลูกค้าไว้ใจที่สุด</text>
+        <text x="800" y="1040" font-size="11" fill="var(--muted,#6b7280)">⭐ เครือข่าย iLovePhone ทั่วประเทศ มาตรฐานเดียว</text>
+        <text x="800" y="1054" font-size="11" fill="var(--muted,#6b7280)">⭐ แพลตฟอร์มบริหารร้านมือถือระดับประเทศ · ยั่งยืน</text>
+
+        <!-- Brand promise -->
+        <rect x="350" y="1074" width="500" height="28" rx="14" fill="url(#tlRed)" opacity=".1"/>
+        <text x="600" y="1094" text-anchor="middle" font-size="13" font-weight="800" fill="#E31E24">❤️ บริการคือหัวใจ ไอเลิฟโฟน ❤️</text>
+      </svg>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <p><b>iLovePhone Business Canvas Dashboard</b> · จัดทำโดย <b>Growth · "ไกล"</b> 🚀 (กลยุทธ์/ขยายสาขา/แฟรนไชส์)</p>
+  <p style="margin-top:6px">ประสานงานโดย น้องเลิฟ · อัปเดต 29 มิ.ย. 2026 · "มองไกลไว้ก่อน ปีนี้วางหมาก ปีหน้าขยาย"</p>
+</footer>
+
+<!-- MODAL -->
+<div class="ov" id="ov">
+  <div class="modal" id="modal"></div>
+</div>
+
+<script>
+/* ---------- BMC DATA ---------- */
+const BMC = [
+  {k:"a-kp",ico:"🤝",t:"Key Partners",sub:"คู่ค้าหลัก",items:[
+    "OHO — gateway เชื่อม LINE OA @ilovephone (ฐาน 15k)",
+    "Render — cloud hosting บอต (Pro, Starter ไม่หลับ)",
+    "Pinecone — vector database (KB 2,969 ชุด)",
+    "OpenAI — embedding + GPT engine",
+    "LINE Platform — ช่องทางลูกค้าหลัก",
+    "ผู้จัดจำหน่ายมือถือ/อะไหล่ + สถาบันสินเชื่อ",
+    "พันธมิตรแฟรนไชส์ & Solar partner"]},
+  {k:"a-ka",ico:"⚙️",t:"Key Activities",sub:"กิจกรรมหลัก",items:[
+    "ขายมือถือใหม่ + รับซื้อ/ขายมือสอง",
+    "งานซ่อมมือถือ (ราคากลางโปร่งใส)",
+    "สินเชื่อ/ผ่อนชำระ",
+    "สอน — คอร์สเรียนซ่อม (คอร์ส 1–4)",
+    "ติดตั้งระบบบริหารร้าน + Solar",
+    "พัฒนา/ดูแล AI Chatbot + KB"]},
+  {k:"a-kr",ico:"🏛️",t:"Key Resources",sub:"ทรัพยากรหลัก",items:[
+    "เครือข่ายสาขา + ทีมช่าง/แอดมิน",
+    "แบรนด์ iLovePhone + ราคากลางทางการ 2,406 รายการ",
+    "ระบบ IT: LINE bot, server.js, Pinecone KB",
+    "ฐานความรู้ 2,969 vectors",
+    "องค์ความรู้คอร์สสอนซ่อม + คู่มือ SOP"]},
+  {k:"a-vp",ico:"❤️",t:"Value Propositions",sub:"คุณค่าที่ส่งมอบ",items:[
+    "“บริการคือหัวใจ ไอเลิฟโฟน”",
+    "ราคากลางโปร่งใส ตรวจสอบได้ ไม่บวกเกิน",
+    "ผ่อนง่าย — บัตรประชาชนใบเดียว",
+    "สะดวก ปลอดภัย ไม่เสียเวลา มั่นใจว่าเลือกถูก",
+    "ตอบไว 24/7 ผ่าน AI + แอดมินคนจริง",
+    "มาตรฐานเดียวกันทุกสาขา"]},
+  {k:"a-cr",ico:"💬",t:"Customer Relationships",sub:"ความสัมพันธ์ลูกค้า",items:[
+    "LINE Bot ตอบอัตโนมัติ 24/7 (grounded จาก KB จริง)",
+    "Handoff ส่งต่อแอดมินคนจริงเคสเสี่ยง/ลูกค้าขอ",
+    "บริการหลังการขาย + ติดตามงานซ่อม",
+    "คอร์สเรียน — สร้างคอมมูนิตี้ช่าง"]},
+  {k:"a-ch",ico:"📡",t:"Channels",sub:"ช่องทาง",items:[
+    "หน้าร้านสาขา (Owned Branch)",
+    "LINE OA @ilovephone / @lovephone-group",
+    "เว็บ academy.lovephonegroup.com",
+    "Facebook & โซเชียล",
+    "เครือข่ายแฟรนไชส์ & Agent"]},
+  {k:"a-cs",ico:"🎯",t:"Customer Segments",sub:"กลุ่มลูกค้า",items:[
+    "ผู้ใช้มือถือทั่วไป (ซื้อ/ซ่อม/ผ่อน)",
+    "ลูกค้ามือสอง (รับซื้อ-ขายแลกเปลี่ยน)",
+    "ช่างซ่อม / ผู้อยากเรียนซ่อม",
+    "ผู้สนใจลงทุนแฟรนไชส์ร้านมือถือ",
+    "ลูกค้า Solar / ระบบบริหารร้าน"]},
+  {k:"a-co",ico:"💸",t:"Cost Structure",sub:"โครงสร้างต้นทุน",items:[
+    "ค่าเช่าสาขา + ค่าตกแต่ง",
+    "เงินเดือนพนักงาน/ช่าง/แอดมิน",
+    "ต้นทุนสต็อกเครื่อง + อะไหล่",
+    "IT: Render + Pinecone + OpenAI + โดเมน",
+    "การตลาด/คอนเทนต์ + ต้นทุนสินเชื่อ"]},
+  {k:"a-rv",ico:"💰",t:"Revenue Streams",sub:"แหล่งรายได้",items:[
+    "ขายมือถือใหม่ + มือสอง (margin)",
+    "ค่าบริการซ่อม (ตามราคากลาง)",
+    "ดอกเบี้ย/ค่าธรรมเนียมผ่อน",
+    "ค่าธรรมเนียมแฟรนไชส์ + royalty",
+    "ค่าคอร์สเรียนซ่อม",
+    "ขาย/ติดตั้ง Solar + ระบบบริหารร้าน"]}
+];
+
+/* ---------- AGENTS DATA ---------- */
+const AGENTS = [
+  {av:"💰",name:'CFO · "มั่งมี"',role:"การเงิน · Cash Flow · ROI",duty:"กางตัวเลข ดูต้นทุน กำไร ราคา และความคุ้มค่าทุกการลงทุน",task:"<b>ราคากลาง</b> 2,406 รายการ · cron CFO review",st:"standby",stt:"Standby",q:'"เดี๋ยวผมกางตัวเลขให้ก่อนนะครับท่าน คุ้มไม่คุ้มรู้กัน 💸"'},
+  {av:"📋",name:'COO · "ระเบียบ"',role:"ปฏิบัติการ · SOP · มาตรฐานสาขา",duty:"วางขั้นตอนให้ทำซ้ำได้เป๊ะทุกสาขา ดูแลงานติดตั้งระบบ",task:"<b>handoff</b> ส่งต่อแอดมิน · oho-migration (ร่วม)",st:"wait",stt:"รอเริ่ม",q:'"ขอจัดเป็นขั้นเป็นตอนนะคะ จะได้ทำซ้ำได้เป๊ะทุกสาขา ✅"'},
+  {av:"💻",name:'CTO · "โค้ด"',role:"เทคนิค · บอต · Server · DNS",duty:"ดูแลบอต LINE, server, automation, โดเมน/DNS",task:"<b>LINE bot</b> บน Render ✓ · lead-capture · oho-migration",st:"active",stt:"กำลังทำ",q:'"เรื่องนี้จิ๊บ ๆ ค่ะพี่ เดี๋ยวหนูจัดให้ 🛠️"'},
+  {av:"🎨",name:'CMO · "ปัง"',role:"การตลาด · คอนเทนต์ · แบรนด์",duty:"คิดแคมเปญ คอนเทนต์ และดูแลภาพลักษณ์แบรนด์",task:"<b>แบรนด์</b> + โซเชียล · คอนเทนต์ Academy",st:"standby",stt:"Standby",q:'"อันนี้ต้องปังค่ะพี่! เดี๋ยวหนูคิดมุมสนุก ๆ ให้ ✨"'},
+  {av:"🚀",name:'Growth · "ไกล"',role:"กลยุทธ์ · ขยายสาขา · แฟรนไชส์",duty:"มองยาว 3-5-10 ปี วางหมากขยายเครือข่ายทั่วประเทศ",task:"<b>Business Canvas Dashboard</b> ✓ · roadmap แฟรนไชส์",st:"active",stt:"กำลังทำ",q:'"มองไกลไว้ก่อนครับ ปีนี้วางหมาก ปีหน้าขยาย 🌏"'},
+  {av:"🛡️",name:'Legal/Risk · "กันชน"',role:"กฎหมาย · สัญญา · ความเสี่ยง",duty:"เป็นกันชนให้ CEO เตือนความเสี่ยงตรง ๆ ก่อนตัดสินใจ",task:"<b>สัญญาแฟรนไชส์</b> · PDPA ข้อมูลลูกค้า OHO",st:"standby",stt:"Standby",q:'"ขอเบรกตรงนี้ก่อนครับ มีความเสี่ยงที่ต้องชั่งน้ำหนัก ⚠️"'}
+];
+
+/* ---------- TIMELINE (now SVG, no JS render needed) ---------- */
+
+/* ---------- RENDER ---------- */
+const bmcEl=document.getElementById("bmc");
+BMC.forEach((c,i)=>{
+  const li=c.items.slice(0,c.k=="a-co"||c.k=="a-rv"?5:4).map(x=>`<li>${x}</li>`).join("");
+  bmcEl.insertAdjacentHTML("beforeend",
+    `<div class="cell ${c.k}" data-i="${i}">
+      <div class="ico">${c.ico}</div>
+      <h4>${c.t}</h4>
+      <ul>${li}</ul>
+    </div>`);
+});
+
+const ag=document.getElementById("agentGrid");
+AGENTS.forEach(a=>{
+  ag.insertAdjacentHTML("beforeend",
+    `<div class="agent">
+      <span class="st ${a.st}">${a.stt}</span>
+      <div class="top">
+        <div class="av">${a.av}</div>
+        <div><div class="name">${a.name}</div><div class="role">${a.role}</div></div>
+      </div>
+      <div class="duty">${a.duty}</div>
+      <div class="task">📌 ${a.task}</div>
+      <div class="quote">${a.q}</div>
+    </div>`);
+});
+
+/* Timeline is now pure SVG — no JS render */
+
+/* ---------- INTERACTIONS ---------- */
+// modal
+const ov=document.getElementById("ov"),modal=document.getElementById("modal");
+bmcEl.addEventListener("click",e=>{
+  const cell=e.target.closest(".cell");if(!cell)return;
+  const c=BMC[cell.dataset.i];
+  modal.innerHTML=`<button class="x" onclick="closeOv()">×</button>
+    <div class="mh"><div class="mi">${c.ico}</div>
+      <div><h3>${c.t}</h3><div class="sub">${c.sub} · iLovePhone Business Model</div></div></div>
+    <ul>${c.items.map(i=>`<li>${i}</li>`).join("")}</ul>`;
+  ov.classList.add("on");
+});
+function closeOv(){ov.classList.remove("on")}
+ov.addEventListener("click",e=>{if(e.target===ov)closeOv()});
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeOv()});
+
+/* Timeline tabs removed — now pure SVG */
+
+// theme toggle
+const tg=document.getElementById("tg"),body=document.body;
+tg.addEventListener("click",()=>{
+  const dark=body.getAttribute("data-theme")==="dark";
+  body.setAttribute("data-theme",dark?"light":"dark");
+  tg.textContent=dark?"🌙":"☀️";
+});
+</script>
+</body>
+</html>
