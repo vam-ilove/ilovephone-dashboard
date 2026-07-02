@@ -47,7 +47,7 @@ html,body{height:100%;font-family:'Sarabun',sans-serif;background:var(--bg);colo
 .tab:hover:not(.active){color:var(--text)}
 
 /* GRID */
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;padding:20px 24px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px;padding:20px 24px}
 
 /* CARD */
 .card{
@@ -66,7 +66,7 @@ html,body{height:100%;font-family:'Sarabun',sans-serif;background:var(--bg);colo
 .card:nth-child(6){animation-delay:.3s}
 
 .card-glow{position:absolute;top:-1px;left:0;right:0;height:3px;border-radius:16px 16px 0 0}
-.card-top{display:flex;align-items:center;gap:14px;margin-bottom:14px}
+.card-top{display:flex;align-items:center;gap:14px;margin-bottom:10px}
 .avatar{
   width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;
   font-size:28px;flex-shrink:0;position:relative;
@@ -78,13 +78,38 @@ html,body{height:100%;font-family:'Sarabun',sans-serif;background:var(--bg);colo
 }
 .card-name{font-size:18px;font-weight:700;line-height:1.2}
 .card-role{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-top:2px}
-.card-desc{font-size:13px;color:var(--text-dim);line-height:1.6;margin-bottom:12px}
+.card-desc{font-size:13px;color:var(--text-dim);line-height:1.6;margin-bottom:10px}
 .card-tag{
   display:inline-block;padding:4px 10px;border-radius:6px;font-size:11px;font-weight:600;
   margin-right:4px;margin-bottom:4px;
 }
 .gender-f{font-size:11px;color:#e91e63;margin-left:4px}
 .gender-m{font-size:11px;color:#4a90d9;margin-left:4px}
+
+/* TIMELINE */
+.timeline{margin-top:14px;border-top:1px solid var(--border);padding-top:12px}
+.tl-section{margin-bottom:10px}
+.tl-section:last-child{margin-bottom:0}
+.tl-header{
+  font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;
+  margin-bottom:6px;display:flex;align-items:center;gap:6px;
+}
+.tl-header .tl-icon{font-size:14px}
+.tl-past .tl-header{color:#8a8fa0}
+.tl-current .tl-header{color:#2ecc71}
+.tl-future .tl-header{color:#f39c12}
+.tl-item{
+  font-size:12px;color:var(--text-dim);line-height:1.7;
+  padding-left:20px;position:relative;
+}
+.tl-item::before{
+  content:'';position:absolute;left:6px;top:8px;
+  width:5px;height:5px;border-radius:50%;
+}
+.tl-past .tl-item::before{background:#8a8fa0}
+.tl-current .tl-item::before{background:#2ecc71;box-shadow:0 0 6px rgba(46,204,113,0.5)}
+.tl-future .tl-item::before{background:#f39c12;opacity:0.6}
+.tl-item.done{text-decoration:line-through;opacity:0.6}
 
 /* TASK FEED */
 .feed-section{padding:20px 24px 30px}
@@ -116,6 +141,17 @@ html,body{height:100%;font-family:'Sarabun',sans-serif;background:var(--bg);colo
 .orch-name{font-weight:700;font-size:14px}
 .orch-desc{font-size:12px;color:var(--text-dim)}
 
+/* STATS */
+.stats-bar{
+  display:flex;gap:12px;padding:16px 24px;flex-wrap:wrap;
+}
+.stat-box{
+  background:var(--card);border:1px solid var(--border);border-radius:10px;
+  padding:12px 18px;flex:1;min-width:120px;text-align:center;
+}
+.stat-num{font-size:24px;font-weight:800;color:var(--red)}
+.stat-label{font-size:11px;color:var(--text-dim);margin-top:2px}
+
 /* FOOTER */
 .footer{text-align:center;padding:20px;font-size:11px;color:var(--text-dim);border-top:1px solid var(--border)}
 
@@ -125,6 +161,7 @@ html,body{height:100%;font-family:'Sarabun',sans-serif;background:var(--bg);colo
   .tabs{padding:10px 16px 0}
   .grid,.feed-section,.footer{padding-left:16px;padding-right:16px}
   .orchestrator{margin-left:16px;margin-right:16px}
+  .stats-bar{padding-left:16px;padding-right:16px}
   .feed-agent{min-width:70px;font-size:12px}
 }
 </style>
@@ -140,6 +177,13 @@ html,body{height:100%;font-family:'Sarabun',sans-serif;background:var(--bg);colo
     </div>
     <div class="badge-online"><span class="dot"></span>6 agents online</div>
   </div>
+</div>
+
+<div class="stats-bar">
+  <div class="stat-box"><div class="stat-num" id="statDone">0</div><div class="stat-label">งานสำเร็จ</div></div>
+  <div class="stat-box"><div class="stat-num" id="statActive">0</div><div class="stat-label">กำลังทำ</div></div>
+  <div class="stat-box"><div class="stat-num" id="statPlanned">0</div><div class="stat-label">วางแผนไว้</div></div>
+  <div class="stat-box"><div class="stat-num" id="statAgents">6</div><div class="stat-label">Agents</div></div>
 </div>
 
 <div class="tabs">
@@ -164,42 +208,12 @@ html,body{height:100%;font-family:'Sarabun',sans-serif;background:var(--bg);colo
 
 <div class="feed-section">
   <div class="feed-title">📋 <span>Task Feed</span> — งานล่าสุด</div>
-  <div class="feed">
-    <div class="feed-item">
-      <div class="feed-agent" style="color:#E91E63">CMO·ปัง</div>
-      <div class="feed-task">เขียนบทความ Academy + แนบ Store Locator ทุกบทความ</div>
-      <div class="feed-status">✅</div>
-    </div>
-    <div class="feed-item">
-      <div class="feed-agent" style="color:#9B59B6">CTO·โค้ด</div>
-      <div class="feed-task">Store Locator — แก้พิกัด GPS ทุกสาขา + deploy GitHub Pages</div>
-      <div class="feed-status">✅</div>
-    </div>
-    <div class="feed-item">
-      <div class="feed-agent" style="color:#9B59B6">CTO·โค้ด</div>
-      <div class="feed-task">อัปบทความ Partner + Google Maps ขึ้น WordPress Academy</div>
-      <div class="feed-status">✅</div>
-    </div>
-    <div class="feed-item">
-      <div class="feed-agent" style="color:#9B59B6">CTO·โค้ด</div>
-      <div class="feed-task">สร้าง Agent Team Dashboard</div>
-      <div class="feed-status">🔄</div>
-    </div>
-    <div class="feed-item">
-      <div class="feed-agent" style="color:#2ECC71">Growth·ไกล</div>
-      <div class="feed-task">วิเคราะห์โอกาสขยาย Partner ใหม่</div>
-      <div class="feed-status">🔄</div>
-    </div>
-    <div class="feed-item">
-      <div class="feed-agent" style="color:#FFD700">CFO·ร่ำรวย</div>
-      <div class="feed-task">ติดตามบัญชี V3 คงเหลือประจำสัปดาห์</div>
-      <div class="feed-status">🔄</div>
-    </div>
-  </div>
+  <div class="feed" id="taskFeed"></div>
 </div>
 
 <div class="footer">
   บริการคือหัวใจ ไอเลิฟโฟน &nbsp;·&nbsp; Powered by AI Agent Team &nbsp;·&nbsp; Love Phone Group Co., Ltd.
+  <br><span style="opacity:0.5">อัปเดตล่าสุด: 2 ก.ค. 2569</span>
 </div>
 
 <script>
@@ -208,39 +222,160 @@ const agents = [
     id:'finance', name:'ร่ำรวย', role:'CHIEF FINANCIAL OFFICER', emoji:'💰',
     color:'#FFD700', gender:'f',
     desc:'วิเคราะห์การเงิน Cash Flow, ROI, Margin, ต้นทุน, ราคา, กำไร-ขาดทุน',
-    tags:['Cash Flow','ROI','EBITDA','Pricing']
+    tags:['Cash Flow','ROI','EBITDA','Pricing'],
+    past:[
+      'วิเคราะห์ต้นทุน-กำไรสาขา',
+      'จัดทำ Business Canvas Dashboard',
+      'วิเคราะห์ ROI สาขา Partner',
+      'ตรวจงบ 89 พลาซ่า มิ.ย. 69'
+    ],
+    current:[
+      'ติดตามบัญชี V3 คงเหลือประจำสัปดาห์',
+      'ยอดตั้งต้นงบดุล 89 พลาซ่า 1 ก.ค. 69'
+    ],
+    future:[
+      'วิเคราะห์ ROI สาขาใหม่ที่จะเปิด',
+      'Forecast กำไร Q3/2569',
+      'ระบบ Dashboard การเงินแบบ Real-time'
+    ]
   },
   {
     id:'ops', name:'ระเบียบ', role:'CHIEF OPERATING OFFICER', emoji:'📋',
     color:'#4A90D9', gender:'f',
     desc:'ดูแลปฏิบัติการ SOP, KPI, มาตรฐานสาขา, ติดตั้งระบบ, ควบคุมคุณภาพ',
-    tags:['SOP','KPI','Branch Std','QC']
+    tags:['SOP','KPI','Branch Std','QC'],
+    past:[
+      'จัดทำ SOP มาตรฐานสาขา',
+      'ตรวจสอบคุณภาพบริการสาขา',
+      'ระบบบัญชี 89 พลาซ่า — ออกแบบโครงสร้าง'
+    ],
+    current:[
+      'ติดตามมาตรฐาน Partner สาขาต่าง ๆ',
+      'ปรับปรุง SOP งานซ่อมมือถือ'
+    ],
+    future:[
+      'ระบบ KPI Scorecard รายสาขา',
+      'Checklist เปิดสาขาใหม่ (Owned / Partner)',
+      'Onboarding Flow สำหรับพนักงานใหม่'
+    ]
   },
   {
     id:'tech', name:'โค้ด', role:'CHIEF TECHNOLOGY OFFICER', emoji:'💻',
     color:'#9B59B6', gender:'f',
     desc:'งานเทคนิค บอท LINE, เว็บ, server, automation, โดเมน, DNS, API',
-    tags:['LINE Bot','Web Dev','Server','API']
+    tags:['LINE Bot','Web Dev','Server','API'],
+    past:[
+      'Store Locator — สร้าง + แก้พิกัด GPS 10 สาขา',
+      'อัปบทความ Partner + Google Maps ขึ้น Academy',
+      'สร้าง Agent Team Dashboard v1',
+      'ตั้งค่า DNS lovephonegroup.com → Academy',
+      'ติดตั้ง n8n สำหรับ AI Chatbot Project'
+    ],
+    current:[
+      'อัปเกรด Agent Team Dashboard (เพิ่ม Timeline)',
+      'AI Chatbot Project — พัฒนาต่อเนื่อง'
+    ],
+    future:[
+      'Pixel Art Office Dashboard (เฟส 2)',
+      'LINE Bot สำหรับลูกค้า iLovePhone',
+      'ระบบ Automation สาขา',
+      'Business Website — business.lovephonegroup.com'
+    ]
   },
   {
     id:'marketing', name:'ปัง', role:'CHIEF MARKETING OFFICER', emoji:'🎯',
     color:'#E91E63', gender:'f',
     desc:'การตลาด คอนเทนต์ Academy, แบรนด์, โซเชียล, SEO, ภาพลักษณ์',
-    tags:['Content','Brand','Social','SEO']
+    tags:['Content','Brand','Social','SEO'],
+    past:[
+      'เขียน 5+ บทความ Academy (Partner, เครื่องเก่า, ซ่อม)',
+      'สร้าง Content Library & แผนคอนเทนต์',
+      'Featured Images สำหรับ Academy',
+      'แนบ Store Locator ทุกบทความ'
+    ],
+    current:[
+      'เขียนบทความ Academy ต่อเนื่อง',
+      'คอนเทนต์ Solar Business'
+    ],
+    future:[
+      'แผน SEO สำหรับ Academy & Business',
+      'Social Media Campaign — Facebook/IG',
+      'Brand Guidelines อัปเดต',
+      'คอนเทนต์วิดีโอ TikTok/Reels'
+    ]
   },
   {
     id:'growth', name:'ไกล', role:'GROWTH STRATEGIST', emoji:'🚀',
     color:'#2ECC71', gender:'m',
     desc:'กลยุทธ์ขยายธุรกิจ แฟรนไชส์ Partner ขยายสาขา วิเคราะห์ตลาด',
-    tags:['Franchise','Partner','Expansion','Market']
+    tags:['Franchise','Partner','Expansion','Market'],
+    past:[
+      'วิเคราะห์โมเดล Partner vs Franchise',
+      'Business Canvas — วิเคราะห์ธุรกิจทุกด้าน',
+      'สำรวจตลาดจังหวัดเป้าหมาย'
+    ],
+    current:[
+      'วิเคราะห์โอกาสขยาย Partner ใหม่',
+      'ติดตามผล Partner ปัจจุบัน (พร้าว, แม่สะเรียง, แม่โจ้)'
+    ],
+    future:[
+      'แผนแฟรนไชส์ระยะยาว 3-5 ปี',
+      'Expansion Roadmap — ภาคเหนือ → ภาคกลาง',
+      'โมเดล Agent Store (ร้านตัวแทน)'
+    ]
   },
   {
     id:'legal', name:'กันชน', role:'LEGAL & RISK ADVISOR', emoji:'🛡️',
     color:'#E67E22', gender:'m',
     desc:'กฎหมาย สัญญา ความเสี่ยง ใบอนุญาต ข้อกำหนด การปฏิบัติตามกฎ',
-    tags:['Contract','Risk','License','Compliance']
+    tags:['Contract','Risk','License','Compliance'],
+    past:[
+      'ตรวจสอบสัญญา Partner',
+      'ประเมินความเสี่ยงโดเมน lovephonegroup.com'
+    ],
+    current:[
+      'ให้คำปรึกษาเรื่องสัญญา Partner ใหม่'
+    ],
+    future:[
+      'สัญญาแฟรนไชส์มาตรฐาน',
+      'ระบบบริหารสัญญาอิเล็กทรอนิกส์',
+      'Compliance Checklist ร้านมือถือ'
+    ]
   }
 ];
+
+function countTasks() {
+  let done=0, active=0, planned=0;
+  agents.forEach(a => {
+    done += a.past.length;
+    active += a.current.length;
+    planned += a.future.length;
+  });
+  document.getElementById('statDone').textContent = done;
+  document.getElementById('statActive').textContent = active;
+  document.getElementById('statPlanned').textContent = planned;
+}
+
+function renderTimeline(a) {
+  let html = '<div class="timeline">';
+  if (a.current.length) {
+    html += '<div class="tl-section tl-current"><div class="tl-header"><span class="tl-icon">▶</span> กำลังทำ</div>';
+    a.current.forEach(t => { html += `<div class="tl-item">${t}</div>`; });
+    html += '</div>';
+  }
+  if (a.future.length) {
+    html += '<div class="tl-section tl-future"><div class="tl-header"><span class="tl-icon">◇</span> แผนถัดไป</div>';
+    a.future.forEach(t => { html += `<div class="tl-item">${t}</div>`; });
+    html += '</div>';
+  }
+  if (a.past.length) {
+    html += '<div class="tl-section tl-past"><div class="tl-header"><span class="tl-icon">✓</span> สำเร็จแล้ว</div>';
+    a.past.forEach(t => { html += `<div class="tl-item done">${t}</div>`; });
+    html += '</div>';
+  }
+  html += '</div>';
+  return html;
+}
 
 function renderAgents(filter='all') {
   const grid = document.getElementById('agentGrid');
@@ -262,6 +397,25 @@ function renderAgents(filter='all') {
       </div>
       <div class="card-desc">${a.desc}</div>
       <div>${a.tags.map(t=>`<span class="card-tag" style="background:${a.color}18;color:${a.color}">${t}</span>`).join('')}</div>
+      ${renderTimeline(a)}
+    </div>
+  `).join('');
+}
+
+function renderFeed() {
+  const feed = document.getElementById('taskFeed');
+  const items = [];
+  agents.forEach(a => {
+    a.current.forEach(t => items.push({agent:a.name, color:a.color, task:t, status:'🔄'}));
+  });
+  agents.forEach(a => {
+    a.past.slice(-2).forEach(t => items.push({agent:a.name, color:a.color, task:t, status:'✅'}));
+  });
+  feed.innerHTML = items.map(it => `
+    <div class="feed-item">
+      <div class="feed-agent" style="color:${it.color}">${it.agent}</div>
+      <div class="feed-task">${it.task}</div>
+      <div class="feed-status">${it.status}</div>
     </div>
   `).join('');
 }
@@ -273,6 +427,8 @@ function filterAgents(filter, el) {
 }
 
 renderAgents();
+renderFeed();
+countTasks();
 </script>
 </body>
 </html>
