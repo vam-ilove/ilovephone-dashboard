@@ -7,16 +7,13 @@
 <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{--red:#E31837;--bg:#0f1117;--card:#1a1d27;--card-hover:#22253a;--text:#e8e8e8;--text-dim:#8a8fa0;--border:#2a2d3a}
+:root{--red:#E31837;--bg:#0f1117;--card:#1a1d27;--card-hover:#22253a;--text:#e8e8e8;--text-dim:#8a8fa0;--border:#2a2d3a;--green:#2ecc71;--orange:#f39c12;--gray:#6b7280}
 html,body{height:100%;font-family:'Sarabun',sans-serif;background:var(--bg);color:var(--text)}
 
-/* HEADER */
 .header{
   background:linear-gradient(135deg,#1a1d27 0%,#2a1525 50%,#1a1d27 100%);
-  background-size:200% 200%;
-  animation:gradShift 8s ease infinite;
-  border-bottom:1px solid var(--border);
-  padding:20px 24px;
+  background-size:200% 200%;animation:gradShift 8s ease infinite;
+  border-bottom:1px solid var(--border);padding:20px 24px;
 }
 @keyframes gradShift{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
 .header-top{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
@@ -29,14 +26,22 @@ html,body{height:100%;font-family:'Sarabun',sans-serif;background:var(--bg);colo
 .header-title{font-size:22px;font-weight:700;color:#fff;line-height:1.2}
 .header-sub{font-size:13px;color:var(--text-dim);font-weight:400}
 .badge-online{
-  margin-left:auto;background:rgba(46,204,113,0.15);color:#2ecc71;
+  margin-left:auto;background:rgba(46,204,113,0.15);color:var(--green);
   padding:6px 14px;border-radius:20px;font-size:13px;font-weight:600;
   display:flex;align-items:center;gap:6px;
 }
-.badge-online .dot{width:8px;height:8px;background:#2ecc71;border-radius:50%;animation:pulse 2s ease infinite}
+.badge-online .dot{width:8px;height:8px;background:var(--green);border-radius:50%;animation:pulse 2s ease infinite}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.3)}}
 
-/* TABS */
+.stats-bar{display:flex;gap:12px;padding:16px 24px;flex-wrap:wrap}
+.stat-box{
+  background:var(--card);border:1px solid var(--border);border-radius:10px;
+  padding:12px 18px;flex:1;min-width:100px;text-align:center;
+}
+.stat-num{font-size:24px;font-weight:800}
+.stat-num.done{color:var(--green)}.stat-num.active{color:var(--orange)}.stat-num.planned{color:#60a5fa}.stat-num.agents{color:var(--red)}
+.stat-label{font-size:11px;color:var(--text-dim);margin-top:2px}
+
 .tabs{display:flex;gap:4px;padding:12px 24px 0;overflow-x:auto;-webkit-overflow-scrolling:touch}
 .tab{
   padding:8px 16px;border-radius:8px 8px 0 0;font-size:13px;font-weight:600;
@@ -46,10 +51,8 @@ html,body{height:100%;font-family:'Sarabun',sans-serif;background:var(--bg);colo
 .tab.active{background:var(--card);color:var(--red);border-color:var(--border)}
 .tab:hover:not(.active){color:var(--text)}
 
-/* GRID */
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px;padding:20px 24px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:16px;padding:20px 24px}
 
-/* CARD */
 .card{
   background:var(--card);border:1px solid var(--border);border-radius:16px;
   padding:20px;position:relative;overflow:hidden;
@@ -58,12 +61,9 @@ html,body{height:100%;font-family:'Sarabun',sans-serif;background:var(--bg);colo
 }
 .card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,0.3);border-color:var(--border)}
 @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-.card:nth-child(1){animation-delay:.05s}
-.card:nth-child(2){animation-delay:.1s}
-.card:nth-child(3){animation-delay:.15s}
-.card:nth-child(4){animation-delay:.2s}
-.card:nth-child(5){animation-delay:.25s}
-.card:nth-child(6){animation-delay:.3s}
+.card:nth-child(1){animation-delay:.05s}.card:nth-child(2){animation-delay:.1s}
+.card:nth-child(3){animation-delay:.15s}.card:nth-child(4){animation-delay:.2s}
+.card:nth-child(5){animation-delay:.25s}.card:nth-child(6){animation-delay:.3s}
 
 .card-glow{position:absolute;top:-1px;left:0;right:0;height:3px;border-radius:16px 16px 0 0}
 .card-top{display:flex;align-items:center;gap:14px;margin-bottom:10px}
@@ -73,45 +73,61 @@ html,body{height:100%;font-family:'Sarabun',sans-serif;background:var(--bg);colo
 }
 .avatar::after{
   content:'';position:absolute;bottom:2px;right:2px;width:12px;height:12px;
-  background:#2ecc71;border-radius:50%;border:2px solid var(--card);
-  animation:pulse 2s ease infinite;
+  background:var(--green);border-radius:50%;border:2px solid var(--card);animation:pulse 2s ease infinite;
 }
 .card-name{font-size:18px;font-weight:700;line-height:1.2}
 .card-role{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-top:2px}
-.card-desc{font-size:13px;color:var(--text-dim);line-height:1.6;margin-bottom:10px}
-.card-tag{
-  display:inline-block;padding:4px 10px;border-radius:6px;font-size:11px;font-weight:600;
-  margin-right:4px;margin-bottom:4px;
-}
+.card-desc{font-size:13px;color:var(--text-dim);line-height:1.6;margin-bottom:8px}
+.card-tag{display:inline-block;padding:4px 10px;border-radius:6px;font-size:11px;font-weight:600;margin-right:4px;margin-bottom:4px}
 .gender-f{font-size:11px;color:#e91e63;margin-left:4px}
 .gender-m{font-size:11px;color:#4a90d9;margin-left:4px}
 
-/* TIMELINE */
 .timeline{margin-top:14px;border-top:1px solid var(--border);padding-top:12px}
-.tl-section{margin-bottom:10px}
-.tl-section:last-child{margin-bottom:0}
+.tl-section{margin-bottom:10px}.tl-section:last-child{margin-bottom:0}
 .tl-header{
   font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;
-  margin-bottom:6px;display:flex;align-items:center;gap:6px;
+  margin-bottom:6px;display:flex;align-items:center;gap:6px;cursor:pointer;
+  user-select:none;
 }
 .tl-header .tl-icon{font-size:14px}
-.tl-past .tl-header{color:#8a8fa0}
-.tl-current .tl-header{color:#2ecc71}
-.tl-future .tl-header{color:#f39c12}
+.tl-header .tl-count{
+  margin-left:auto;background:rgba(255,255,255,0.08);padding:1px 8px;
+  border-radius:10px;font-size:10px;font-weight:600;
+}
+.tl-current .tl-header{color:var(--green)}
+.tl-pending .tl-header{color:var(--orange)}
+.tl-future .tl-header{color:#60a5fa}
+.tl-past .tl-header{color:var(--gray)}
+.tl-items{overflow:hidden;transition:max-height .3s ease}
 .tl-item{
-  font-size:12px;color:var(--text-dim);line-height:1.7;
+  font-size:12px;color:var(--text-dim);line-height:1.8;
   padding-left:20px;position:relative;
 }
 .tl-item::before{
-  content:'';position:absolute;left:6px;top:8px;
+  content:'';position:absolute;left:6px;top:9px;
   width:5px;height:5px;border-radius:50%;
 }
-.tl-past .tl-item::before{background:#8a8fa0}
-.tl-current .tl-item::before{background:#2ecc71;box-shadow:0 0 6px rgba(46,204,113,0.5)}
-.tl-future .tl-item::before{background:#f39c12;opacity:0.6}
-.tl-item.done{text-decoration:line-through;opacity:0.6}
+.tl-current .tl-item::before{background:var(--green);box-shadow:0 0 6px rgba(46,204,113,0.5)}
+.tl-pending .tl-item::before{background:var(--orange);box-shadow:0 0 6px rgba(243,156,18,0.3)}
+.tl-future .tl-item::before{background:#60a5fa;opacity:0.7}
+.tl-past .tl-item::before{background:var(--gray)}
+.tl-item.done{text-decoration:line-through;opacity:0.5}
+.tl-item .tl-date{font-size:10px;color:var(--gray);margin-left:6px}
 
-/* TASK FEED */
+.orchestrator{
+  margin:0 24px 20px;padding:16px 20px;
+  background:linear-gradient(135deg,rgba(227,24,55,0.08),rgba(227,24,55,0.02));
+  border:1px solid rgba(227,24,55,0.2);border-radius:12px;
+  display:flex;align-items:center;gap:14px;
+}
+.orch-avatar{
+  width:44px;height:44px;background:var(--red);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;font-size:22px;
+  box-shadow:0 4px 16px rgba(227,24,55,0.3);
+}
+.orch-name{font-weight:700;font-size:14px}
+.orch-desc{font-size:12px;color:var(--text-dim)}
+
 .feed-section{padding:20px 24px 30px}
 .feed-title{font-size:16px;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:8px}
 .feed-title span{color:var(--red)}
@@ -125,34 +141,8 @@ html,body{height:100%;font-family:'Sarabun',sans-serif;background:var(--bg);colo
 .feed-agent{font-weight:700;white-space:nowrap;min-width:100px}
 .feed-task{color:var(--text-dim);flex:1}
 .feed-status{font-size:16px;flex-shrink:0}
+.feed-date{font-size:10px;color:var(--gray);white-space:nowrap}
 
-/* ORCHESTRATOR */
-.orchestrator{
-  margin:0 24px 30px;padding:16px 20px;
-  background:linear-gradient(135deg,rgba(227,24,55,0.08),rgba(227,24,55,0.02));
-  border:1px solid rgba(227,24,55,0.2);border-radius:12px;
-  display:flex;align-items:center;gap:14px;
-}
-.orch-avatar{
-  width:44px;height:44px;background:var(--red);border-radius:50%;
-  display:flex;align-items:center;justify-content:center;font-size:22px;
-  box-shadow:0 4px 16px rgba(227,24,55,0.3);
-}
-.orch-name{font-weight:700;font-size:14px}
-.orch-desc{font-size:12px;color:var(--text-dim)}
-
-/* STATS */
-.stats-bar{
-  display:flex;gap:12px;padding:16px 24px;flex-wrap:wrap;
-}
-.stat-box{
-  background:var(--card);border:1px solid var(--border);border-radius:10px;
-  padding:12px 18px;flex:1;min-width:120px;text-align:center;
-}
-.stat-num{font-size:24px;font-weight:800;color:var(--red)}
-.stat-label{font-size:11px;color:var(--text-dim);margin-top:2px}
-
-/* FOOTER */
 .footer{text-align:center;padding:20px;font-size:11px;color:var(--text-dim);border-top:1px solid var(--border)}
 
 @media(max-width:700px){
@@ -180,10 +170,10 @@ html,body{height:100%;font-family:'Sarabun',sans-serif;background:var(--bg);colo
 </div>
 
 <div class="stats-bar">
-  <div class="stat-box"><div class="stat-num" id="statDone">0</div><div class="stat-label">งานสำเร็จ</div></div>
-  <div class="stat-box"><div class="stat-num" id="statActive">0</div><div class="stat-label">กำลังทำ</div></div>
-  <div class="stat-box"><div class="stat-num" id="statPlanned">0</div><div class="stat-label">วางแผนไว้</div></div>
-  <div class="stat-box"><div class="stat-num" id="statAgents">6</div><div class="stat-label">Agents</div></div>
+  <div class="stat-box"><div class="stat-num done" id="statDone">0</div><div class="stat-label">สำเร็จแล้ว</div></div>
+  <div class="stat-box"><div class="stat-num active" id="statActive">0</div><div class="stat-label">กำลังทำ</div></div>
+  <div class="stat-box"><div class="stat-num planned" id="statPlanned">0</div><div class="stat-label">วางแผนไว้</div></div>
+  <div class="stat-box"><div class="stat-num agents" id="statAgents">6</div><div class="stat-label">Agents</div></div>
 </div>
 
 <div class="tabs">
@@ -207,7 +197,7 @@ html,body{height:100%;font-family:'Sarabun',sans-serif;background:var(--bg);colo
 </div>
 
 <div class="feed-section">
-  <div class="feed-title">📋 <span>Task Feed</span> — งานล่าสุด</div>
+  <div class="feed-title">📋 <span>Activity Feed</span> — ความเคลื่อนไหวล่าสุด</div>
   <div class="feed" id="taskFeed"></div>
 </div>
 
@@ -224,19 +214,25 @@ const agents = [
     desc:'วิเคราะห์การเงิน Cash Flow, ROI, Margin, ต้นทุน, ราคา, กำไร-ขาดทุน',
     tags:['Cash Flow','ROI','EBITDA','Pricing'],
     past:[
-      'วิเคราะห์ต้นทุน-กำไรสาขา',
-      'จัดทำ Business Canvas Dashboard',
-      'วิเคราะห์ ROI สาขา Partner',
-      'ตรวจงบ 89 พลาซ่า มิ.ย. 69'
+      {task:'วิเคราะห์ต้นทุน-กำไร ทุกสาขา', date:'มิ.ย. 69'},
+      {task:'จัดทำ Business Canvas Dashboard', date:'29 มิ.ย.'},
+      {task:'ออกแบบโครงสร้างระบบบัญชี Partner (10 ชีท)', date:'29 มิ.ย.'},
+      {task:'วิเคราะห์ ROI สาขา Partner', date:'มิ.ย. 69'},
+      {task:'คอนเทนต์การตลาด Partner Accounting', date:'29 มิ.ย.'},
     ],
     current:[
-      'ติดตามบัญชี V3 คงเหลือประจำสัปดาห์',
-      'ยอดตั้งต้นงบดุล 89 พลาซ่า 1 ก.ค. 69'
+      {task:'ติดตามบัญชี V3 คงเหลือประจำสัปดาห์', date:'ทุกศุกร์'},
+      {task:'ยอดตั้งต้นงบดุล 89 พลาซ่า 1 ก.ค. 69', date:'2 ก.ค.'},
+      {task:'รอข้อมูล 89 พลาซ่า ทำงบ P&L / งบดุล / กระแสเงินสด', date:'รอ CEO'},
+    ],
+    pending:[
+      {task:'สร้างฟอร์ม+template บัญชี Partner (เคลียร์บิล+รายจ่าย)'},
     ],
     future:[
-      'วิเคราะห์ ROI สาขาใหม่ที่จะเปิด',
-      'Forecast กำไร Q3/2569',
-      'ระบบ Dashboard การเงินแบบ Real-time'
+      {task:'วิเคราะห์ ROI สาขาใหม่ที่จะเปิด'},
+      {task:'Forecast กำไร Q3/2569'},
+      {task:'Dashboard การเงิน Real-time'},
+      {task:'ระบบบัญชี Partner ขยายไปสาขาอื่น (นอกเหนือ 89 พลาซ่า)'},
     ]
   },
   {
@@ -245,18 +241,21 @@ const agents = [
     desc:'ดูแลปฏิบัติการ SOP, KPI, มาตรฐานสาขา, ติดตั้งระบบ, ควบคุมคุณภาพ',
     tags:['SOP','KPI','Branch Std','QC'],
     past:[
-      'จัดทำ SOP มาตรฐานสาขา',
-      'ตรวจสอบคุณภาพบริการสาขา',
-      'ระบบบัญชี 89 พลาซ่า — ออกแบบโครงสร้าง'
+      {task:'จัดทำ SOP มาตรฐานสาขา', date:'มิ.ย. 69'},
+      {task:'ตรวจสอบคุณภาพบริการสาขา', date:'มิ.ย. 69'},
+      {task:'ออกแบบโครงสร้างระบบบัญชี 89 พลาซ่า (ร่วม CFO)', date:'29 มิ.ย.'},
     ],
     current:[
-      'ติดตามมาตรฐาน Partner สาขาต่าง ๆ',
-      'ปรับปรุง SOP งานซ่อมมือถือ'
+      {task:'ติดตามมาตรฐาน Partner (พร้าว, แม่สะเรียง, แม่โจ้)', date:'ต่อเนื่อง'},
+    ],
+    pending:[
+      {task:'OHO Migration — แผนย้ายบอต @ilovephone (ร่วม CTO)', note:'📐 แผนเสร็จ รอ CEO อนุมัติ'},
     ],
     future:[
-      'ระบบ KPI Scorecard รายสาขา',
-      'Checklist เปิดสาขาใหม่ (Owned / Partner)',
-      'Onboarding Flow สำหรับพนักงานใหม่'
+      {task:'ระบบ KPI Scorecard รายสาขา'},
+      {task:'Checklist เปิดสาขาใหม่ (Owned / Partner / Agent)'},
+      {task:'Onboarding Flow สำหรับพนักงานใหม่'},
+      {task:'ปรับปรุง SOP งานซ่อมมือถือ'},
     ]
   },
   {
@@ -265,21 +264,28 @@ const agents = [
     desc:'งานเทคนิค บอท LINE, เว็บ, server, automation, โดเมน, DNS, API',
     tags:['LINE Bot','Web Dev','Server','API'],
     past:[
-      'Store Locator — สร้าง + แก้พิกัด GPS 10 สาขา',
-      'อัปบทความ Partner + Google Maps ขึ้น Academy',
-      'สร้าง Agent Team Dashboard v1',
-      'ตั้งค่า DNS lovephonegroup.com → Academy',
-      'ติดตั้ง n8n สำหรับ AI Chatbot Project'
+      {task:'LINE Bot + Pinecone KB 2,969 ชุด (Render)', date:'มิ.ย. 69'},
+      {task:'Lead Capture — เก็บ lead ลง Google Sheet', date:'27 มิ.ย.'},
+      {task:'Handoff — ส่งต่อแอดมิน เคสเสี่ยง/ลูกค้าขอคุยคน', date:'28 มิ.ย.'},
+      {task:'Domain Setup — academy.lovephonegroup.com → WordPress', date:'27 มิ.ย.'},
+      {task:'อัปบทความ Partner + Google Maps ขึ้น Academy WordPress', date:'29 มิ.ย.'},
+      {task:'Store Locator — สร้าง + แก้พิกัด GPS 10 สาขา', date:'2 ก.ค.'},
+      {task:'สร้าง Agent Team Dashboard v1 + v2 (Timeline)', date:'2 ก.ค.'},
+      {task:'ติดตั้ง n8n สำหรับ AI Chatbot Project', date:'24 มิ.ย.'},
     ],
     current:[
-      'อัปเกรด Agent Team Dashboard (เพิ่ม Timeline)',
-      'AI Chatbot Project — พัฒนาต่อเนื่อง'
+      {task:'AI Chatbot Project — พัฒนาต่อเนื่อง', date:'ต่อเนื่อง'},
+      {task:'อัปเกรด Agent Team Dashboard', date:'2 ก.ค.'},
+    ],
+    pending:[
+      {task:'OHO Migration — เชื่อมบอตกับ @ilovephone 15k (ร่วม COO)', note:'📐 แผนเสร็จ รอ CEO อนุมัติ'},
     ],
     future:[
-      'Pixel Art Office Dashboard (เฟส 2)',
-      'LINE Bot สำหรับลูกค้า iLovePhone',
-      'ระบบ Automation สาขา',
-      'Business Website — business.lovephonegroup.com'
+      {task:'Pixel Art Office Dashboard (เฟส 2)'},
+      {task:'LINE Bot สำหรับลูกค้า @ilovephone (production)'},
+      {task:'Business Website — business.lovephonegroup.com'},
+      {task:'ระบบ Automation สาขา'},
+      {task:'Store Locator — ดึงพิกัดจาก Google Places API อัตโนมัติ'},
     ]
   },
   {
@@ -288,20 +294,24 @@ const agents = [
     desc:'การตลาด คอนเทนต์ Academy, แบรนด์, โซเชียล, SEO, ภาพลักษณ์',
     tags:['Content','Brand','Social','SEO'],
     past:[
-      'เขียน 5+ บทความ Academy (Partner, เครื่องเก่า, ซ่อม)',
-      'สร้าง Content Library & แผนคอนเทนต์',
-      'Featured Images สำหรับ Academy',
-      'แนบ Store Locator ทุกบทความ'
+      {task:'เขียน 5+ บทความ Academy (Partner, เครื่องเก่า, ซ่อม, ฯลฯ)', date:'มิ.ย. 69'},
+      {task:'สร้าง Content Library & แผนคอนเทนต์', date:'มิ.ย. 69'},
+      {task:'Featured Images สำหรับ Academy (anime-style)', date:'มิ.ย. 69'},
+      {task:'คอนเทนต์ Partner Accounting (FB post + บทความ + infographic)', date:'29 มิ.ย.'},
+      {task:'แนบ Store Locator ทุกบทความ Academy', date:'2 ก.ค.'},
     ],
     current:[
-      'เขียนบทความ Academy ต่อเนื่อง',
-      'คอนเทนต์ Solar Business'
+      {task:'เขียนบทความ Academy ต่อเนื่อง (ไม่ต้องรอ CEO สั่ง)', date:'ต่อเนื่อง'},
+    ],
+    pending:[
+      {task:'คอนเทนต์ Solar Business'},
     ],
     future:[
-      'แผน SEO สำหรับ Academy & Business',
-      'Social Media Campaign — Facebook/IG',
-      'Brand Guidelines อัปเดต',
-      'คอนเทนต์วิดีโอ TikTok/Reels'
+      {task:'แผน SEO สำหรับ Academy & Business Website'},
+      {task:'Social Media Campaign — Facebook / IG / TikTok'},
+      {task:'Brand Guidelines อัปเดต'},
+      {task:'คอนเทนต์วิดีโอ TikTok / Reels'},
+      {task:'คอนเทนต์แฟรนไชส์ — ดึงดูดผู้สนใจเปิดสาขา'},
     ]
   },
   {
@@ -310,18 +320,20 @@ const agents = [
     desc:'กลยุทธ์ขยายธุรกิจ แฟรนไชส์ Partner ขยายสาขา วิเคราะห์ตลาด',
     tags:['Franchise','Partner','Expansion','Market'],
     past:[
-      'วิเคราะห์โมเดล Partner vs Franchise',
-      'Business Canvas — วิเคราะห์ธุรกิจทุกด้าน',
-      'สำรวจตลาดจังหวัดเป้าหมาย'
+      {task:'วิเคราะห์โมเดล Partner vs Franchise vs Agent', date:'มิ.ย. 69'},
+      {task:'Business Canvas — วิเคราะห์ธุรกิจทุกด้าน', date:'29 มิ.ย.'},
+      {task:'สำรวจตลาดจังหวัดเป้าหมาย', date:'มิ.ย. 69'},
     ],
     current:[
-      'วิเคราะห์โอกาสขยาย Partner ใหม่',
-      'ติดตามผล Partner ปัจจุบัน (พร้าว, แม่สะเรียง, แม่โจ้)'
+      {task:'วิเคราะห์โอกาสขยาย Partner ใหม่', date:'ต่อเนื่อง'},
+      {task:'ติดตามผล Partner ปัจจุบัน (พร้าว, แม่สะเรียง, แม่โจ้)', date:'ต่อเนื่อง'},
     ],
+    pending:[],
     future:[
-      'แผนแฟรนไชส์ระยะยาว 3-5 ปี',
-      'Expansion Roadmap — ภาคเหนือ → ภาคกลาง',
-      'โมเดล Agent Store (ร้านตัวแทน)'
+      {task:'แผนแฟรนไชส์ระยะยาว 3-5 ปี'},
+      {task:'Expansion Roadmap — ภาคเหนือ → ภาคกลาง → ทั่วประเทศ'},
+      {task:'โมเดล Agent Store (ร้านตัวแทน)'},
+      {task:'วิเคราะห์ตลาด Solar สำหรับขยายธุรกิจพลังงาน'},
     ]
   },
   {
@@ -330,16 +342,19 @@ const agents = [
     desc:'กฎหมาย สัญญา ความเสี่ยง ใบอนุญาต ข้อกำหนด การปฏิบัติตามกฎ',
     tags:['Contract','Risk','License','Compliance'],
     past:[
-      'ตรวจสอบสัญญา Partner',
-      'ประเมินความเสี่ยงโดเมน lovephonegroup.com'
+      {task:'ตรวจสอบสัญญา Partner', date:'มิ.ย. 69'},
+      {task:'ประเมินความเสี่ยงโดเมน lovephonegroup.com', date:'25 มิ.ย.'},
+      {task:'ให้คำปรึกษา EPP code / domain transfer risks', date:'25 มิ.ย.'},
     ],
     current:[
-      'ให้คำปรึกษาเรื่องสัญญา Partner ใหม่'
+      {task:'ให้คำปรึกษาสัญญา Partner ใหม่', date:'ต่อเนื่อง'},
     ],
+    pending:[],
     future:[
-      'สัญญาแฟรนไชส์มาตรฐาน',
-      'ระบบบริหารสัญญาอิเล็กทรอนิกส์',
-      'Compliance Checklist ร้านมือถือ'
+      {task:'สัญญาแฟรนไชส์มาตรฐาน'},
+      {task:'ระบบบริหารสัญญาอิเล็กทรอนิกส์'},
+      {task:'Compliance Checklist ร้านมือถือ'},
+      {task:'สัญญา Solar / พลังงาน'},
     ]
   }
 ];
@@ -349,7 +364,7 @@ function countTasks() {
   agents.forEach(a => {
     done += a.past.length;
     active += a.current.length;
-    planned += a.future.length;
+    planned += (a.pending?.length||0) + a.future.length;
   });
   document.getElementById('statDone').textContent = done;
   document.getElementById('statActive').textContent = active;
@@ -358,23 +373,58 @@ function countTasks() {
 
 function renderTimeline(a) {
   let html = '<div class="timeline">';
+
   if (a.current.length) {
-    html += '<div class="tl-section tl-current"><div class="tl-header"><span class="tl-icon">▶</span> กำลังทำ</div>';
-    a.current.forEach(t => { html += `<div class="tl-item">${t}</div>`; });
-    html += '</div>';
+    html += `<div class="tl-section tl-current">
+      <div class="tl-header" onclick="toggleSection(this)"><span class="tl-icon">▶</span> กำลังทำ <span class="tl-count">${a.current.length}</span></div>
+      <div class="tl-items">`;
+    a.current.forEach(t => {
+      html += `<div class="tl-item">${t.task}${t.date?`<span class="tl-date">${t.date}</span>`:''}</div>`;
+    });
+    html += '</div></div>';
   }
+
+  if (a.pending?.length) {
+    html += `<div class="tl-section tl-pending">
+      <div class="tl-header" onclick="toggleSection(this)"><span class="tl-icon">⏳</span> รอดำเนินการ <span class="tl-count">${a.pending.length}</span></div>
+      <div class="tl-items">`;
+    a.pending.forEach(t => {
+      html += `<div class="tl-item">${t.task}${t.note?` <span class="tl-date">${t.note}</span>`:''}</div>`;
+    });
+    html += '</div></div>';
+  }
+
   if (a.future.length) {
-    html += '<div class="tl-section tl-future"><div class="tl-header"><span class="tl-icon">◇</span> แผนถัดไป</div>';
-    a.future.forEach(t => { html += `<div class="tl-item">${t}</div>`; });
-    html += '</div>';
+    html += `<div class="tl-section tl-future">
+      <div class="tl-header" onclick="toggleSection(this)"><span class="tl-icon">◇</span> แผนอนาคต <span class="tl-count">${a.future.length}</span></div>
+      <div class="tl-items">`;
+    a.future.forEach(t => {
+      html += `<div class="tl-item">${t.task}</div>`;
+    });
+    html += '</div></div>';
   }
+
   if (a.past.length) {
-    html += '<div class="tl-section tl-past"><div class="tl-header"><span class="tl-icon">✓</span> สำเร็จแล้ว</div>';
-    a.past.forEach(t => { html += `<div class="tl-item done">${t}</div>`; });
-    html += '</div>';
+    html += `<div class="tl-section tl-past">
+      <div class="tl-header" onclick="toggleSection(this)"><span class="tl-icon">✓</span> สำเร็จแล้ว <span class="tl-count">${a.past.length}</span></div>
+      <div class="tl-items" style="max-height:0;overflow:hidden">`;
+    a.past.forEach(t => {
+      html += `<div class="tl-item done">${t.task}${t.date?`<span class="tl-date">${t.date}</span>`:''}</div>`;
+    });
+    html += '</div></div>';
   }
+
   html += '</div>';
   return html;
+}
+
+function toggleSection(header) {
+  const items = header.nextElementSibling;
+  if (items.style.maxHeight && items.style.maxHeight !== '0px') {
+    items.style.maxHeight = '0px';
+  } else {
+    items.style.maxHeight = items.scrollHeight + 'px';
+  }
 }
 
 function renderAgents(filter='all') {
@@ -400,21 +450,33 @@ function renderAgents(filter='all') {
       ${renderTimeline(a)}
     </div>
   `).join('');
+
+  document.querySelectorAll('.tl-items').forEach(el => {
+    if (!el.style.maxHeight || el.style.maxHeight === '') {
+      if (!el.closest('.tl-past')) {
+        el.style.maxHeight = el.scrollHeight + 'px';
+      }
+    }
+  });
 }
 
 function renderFeed() {
   const feed = document.getElementById('taskFeed');
   const items = [];
   agents.forEach(a => {
-    a.current.forEach(t => items.push({agent:a.name, color:a.color, task:t, status:'🔄'}));
+    a.current.forEach(t => items.push({agent:a.name, color:a.color, task:t.task, status:'🔄', date:t.date||''}));
   });
   agents.forEach(a => {
-    a.past.slice(-2).forEach(t => items.push({agent:a.name, color:a.color, task:t, status:'✅'}));
+    (a.pending||[]).forEach(t => items.push({agent:a.name, color:a.color, task:t.task, status:'⏳', date:t.note||''}));
+  });
+  agents.forEach(a => {
+    a.past.slice(-1).forEach(t => items.push({agent:a.name, color:a.color, task:t.task, status:'✅', date:t.date||''}));
   });
   feed.innerHTML = items.map(it => `
     <div class="feed-item">
       <div class="feed-agent" style="color:${it.color}">${it.agent}</div>
       <div class="feed-task">${it.task}</div>
+      <div class="feed-date">${it.date}</div>
       <div class="feed-status">${it.status}</div>
     </div>
   `).join('');
