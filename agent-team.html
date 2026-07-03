@@ -165,7 +165,7 @@ html,body{height:100%;font-family:'Sarabun',sans-serif;background:var(--bg);colo
       <div class="header-title">iLovePhone Agent Team</div>
       <div class="header-sub">ทีม AI ผู้ช่วยผู้บริหาร — Love Phone Group</div>
     </div>
-    <div class="badge-online"><span class="dot"></span>6 agents online</div>
+    <div class="badge-online"><span class="dot"></span><span id="onlineBadge">Loading...</span></div>
   </div>
 </div>
 
@@ -203,162 +203,63 @@ html,body{height:100%;font-family:'Sarabun',sans-serif;background:var(--bg);colo
 
 <div class="footer">
   บริการคือหัวใจ ไอเลิฟโฟน &nbsp;·&nbsp; Powered by AI Agent Team &nbsp;·&nbsp; Love Phone Group Co., Ltd.
-  <br><span style="opacity:0.5">อัปเดตล่าสุด: 2 ก.ค. 2569</span>
+  <br><span style="opacity:0.5" id="lastUpdate">กำลังโหลด...</span>
 </div>
 
 <script>
-const agents = [
-  {
-    id:'finance', name:'ร่ำรวย', role:'CHIEF FINANCIAL OFFICER', emoji:'💰',
-    color:'#FFD700', gender:'f',
-    desc:'วิเคราะห์การเงิน Cash Flow, ROI, Margin, ต้นทุน, ราคา, กำไร-ขาดทุน',
-    tags:['Cash Flow','ROI','EBITDA','Pricing'],
-    past:[
-      {task:'วิเคราะห์ต้นทุน-กำไร ทุกสาขา', date:'มิ.ย. 69'},
-      {task:'จัดทำ Business Canvas Dashboard', date:'29 มิ.ย.'},
-      {task:'ออกแบบโครงสร้างระบบบัญชี Partner (10 ชีท)', date:'29 มิ.ย.'},
-      {task:'วิเคราะห์ ROI สาขา Partner', date:'มิ.ย. 69'},
-      {task:'คอนเทนต์การตลาด Partner Accounting', date:'29 มิ.ย.'},
-      {task:'ยอดตั้งต้นงบดุล 89 พลาซ่า 1 ก.ค. 69 (บาลานซ์ ✅)', date:'2 ก.ค.'},
-      {task:'ตั้งค่าเสื่อมราคาทรัพย์สิน 89 พลาซ่า (11,037/เดือน ก.ค.–ธ.ค.)', date:'2 ก.ค.'},
-    ],
-    current:[
-      {task:'ติดตามบัญชี V3 คงเหลือประจำสัปดาห์', date:'ทุกศุกร์'},
-      {task:'รอข้อมูล 89 พลาซ่า ทำงบ P&L / งบดุล / กระแสเงินสด', date:'รอ CEO'},
-    ],
-    pending:[
-      {task:'สร้างฟอร์ม+template บัญชี Partner (เคลียร์บิล+รายจ่าย)'},
-    ],
-    future:[
-      {task:'วิเคราะห์ ROI สาขาใหม่ที่จะเปิด'},
-      {task:'Forecast กำไร Q3/2569'},
-      {task:'Dashboard การเงิน Real-time'},
-      {task:'ระบบบัญชี Partner ขยายไปสาขาอื่น (นอกเหนือ 89 พลาซ่า)'},
-    ]
-  },
-  {
-    id:'ops', name:'ระเบียบ', role:'CHIEF OPERATING OFFICER', emoji:'📋',
-    color:'#4A90D9', gender:'f',
-    desc:'ดูแลปฏิบัติการ SOP, KPI, มาตรฐานสาขา, ติดตั้งระบบ, ควบคุมคุณภาพ',
-    tags:['SOP','KPI','Branch Std','QC'],
-    past:[
-      {task:'จัดทำ SOP มาตรฐานสาขา', date:'มิ.ย. 69'},
-      {task:'ตรวจสอบคุณภาพบริการสาขา', date:'มิ.ย. 69'},
-      {task:'ออกแบบโครงสร้างระบบบัญชี 89 พลาซ่า (ร่วม CFO)', date:'29 มิ.ย.'},
-    ],
-    current:[
-      {task:'ติดตามมาตรฐาน Partner (พร้าว, แม่สะเรียง, แม่โจ้)', date:'ต่อเนื่อง'},
-    ],
-    pending:[
-      {task:'OHO Migration — แผนย้ายบอต @ilovephone (ร่วม CTO)', note:'📐 แผนเสร็จ รอ CEO อนุมัติ'},
-    ],
-    future:[
-      {task:'ระบบ KPI Scorecard รายสาขา'},
-      {task:'Checklist เปิดสาขาใหม่ (Owned / Partner / Agent)'},
-      {task:'Onboarding Flow สำหรับพนักงานใหม่'},
-      {task:'ปรับปรุง SOP งานซ่อมมือถือ'},
-    ]
-  },
-  {
-    id:'tech', name:'โค้ด', role:'CHIEF TECHNOLOGY OFFICER', emoji:'💻',
-    color:'#9B59B6', gender:'f',
-    desc:'งานเทคนิค บอท LINE, เว็บ, server, automation, โดเมน, DNS, API',
-    tags:['LINE Bot','Web Dev','Server','API'],
-    past:[
-      {task:'LINE Bot + Pinecone KB 2,969 ชุด (Render)', date:'มิ.ย. 69'},
-      {task:'Lead Capture — เก็บ lead ลง Google Sheet', date:'27 มิ.ย.'},
-      {task:'Handoff — ส่งต่อแอดมิน เคสเสี่ยง/ลูกค้าขอคุยคน', date:'28 มิ.ย.'},
-      {task:'Domain Setup — academy.lovephonegroup.com → WordPress', date:'27 มิ.ย.'},
-      {task:'อัปบทความ Partner + Google Maps ขึ้น Academy WordPress', date:'29 มิ.ย.'},
-      {task:'Store Locator — สร้าง + แก้พิกัด GPS 10 สาขา', date:'2 ก.ค.'},
-      {task:'สร้าง Agent Team Dashboard v1 + v2 (Timeline)', date:'2 ก.ค.'},
-      {task:'ติดตั้ง n8n สำหรับ AI Chatbot Project', date:'24 มิ.ย.'},
-    ],
-    current:[
-      {task:'AI Chatbot Project — พัฒนาต่อเนื่อง', date:'ต่อเนื่อง'},
-      {task:'อัปเกรด Agent Team Dashboard', date:'2 ก.ค.'},
-    ],
-    pending:[
-      {task:'OHO Migration — เชื่อมบอตกับ @ilovephone 15k (ร่วม COO)', note:'📐 แผนเสร็จ รอ CEO อนุมัติ'},
-    ],
-    future:[
-      {task:'Pixel Art Office Dashboard (เฟส 2)'},
-      {task:'LINE Bot สำหรับลูกค้า @ilovephone (production)'},
-      {task:'Business Website — business.lovephonegroup.com'},
-      {task:'ระบบ Automation สาขา'},
-      {task:'Store Locator — ดึงพิกัดจาก Google Places API อัตโนมัติ'},
-    ]
-  },
-  {
-    id:'marketing', name:'ปัง', role:'CHIEF MARKETING OFFICER', emoji:'🎯',
-    color:'#E91E63', gender:'f',
-    desc:'การตลาด คอนเทนต์ Academy, แบรนด์, โซเชียล, SEO, ภาพลักษณ์',
-    tags:['Content','Brand','Social','SEO'],
-    past:[
-      {task:'เขียน 5+ บทความ Academy (Partner, เครื่องเก่า, ซ่อม, ฯลฯ)', date:'มิ.ย. 69'},
-      {task:'สร้าง Content Library & แผนคอนเทนต์', date:'มิ.ย. 69'},
-      {task:'Featured Images สำหรับ Academy (anime-style)', date:'มิ.ย. 69'},
-      {task:'คอนเทนต์ Partner Accounting (FB post + บทความ + infographic)', date:'29 มิ.ย.'},
-      {task:'แนบ Store Locator ทุกบทความ Academy', date:'2 ก.ค.'},
-    ],
-    current:[
-      {task:'เขียนบทความ Academy ต่อเนื่อง (ไม่ต้องรอ CEO สั่ง)', date:'ต่อเนื่อง'},
-    ],
-    pending:[
-      {task:'คอนเทนต์ Solar Business'},
-    ],
-    future:[
-      {task:'แผน SEO สำหรับ Academy & Business Website'},
-      {task:'Social Media Campaign — Facebook / IG / TikTok'},
-      {task:'Brand Guidelines อัปเดต'},
-      {task:'คอนเทนต์วิดีโอ TikTok / Reels'},
-      {task:'คอนเทนต์แฟรนไชส์ — ดึงดูดผู้สนใจเปิดสาขา'},
-    ]
-  },
-  {
-    id:'growth', name:'ไกล', role:'GROWTH STRATEGIST', emoji:'🚀',
-    color:'#2ECC71', gender:'m',
-    desc:'กลยุทธ์ขยายธุรกิจ แฟรนไชส์ Partner ขยายสาขา วิเคราะห์ตลาด',
-    tags:['Franchise','Partner','Expansion','Market'],
-    past:[
-      {task:'วิเคราะห์โมเดล Partner vs Franchise vs Agent', date:'มิ.ย. 69'},
-      {task:'Business Canvas — วิเคราะห์ธุรกิจทุกด้าน', date:'29 มิ.ย.'},
-      {task:'สำรวจตลาดจังหวัดเป้าหมาย', date:'มิ.ย. 69'},
-    ],
-    current:[
-      {task:'วิเคราะห์โอกาสขยาย Partner ใหม่', date:'ต่อเนื่อง'},
-      {task:'ติดตามผล Partner ปัจจุบัน (พร้าว, แม่สะเรียง, แม่โจ้)', date:'ต่อเนื่อง'},
-    ],
-    pending:[],
-    future:[
-      {task:'แผนแฟรนไชส์ระยะยาว 3-5 ปี'},
-      {task:'Expansion Roadmap — ภาคเหนือ → ภาคกลาง → ทั่วประเทศ'},
-      {task:'โมเดล Agent Store (ร้านตัวแทน)'},
-      {task:'วิเคราะห์ตลาด Solar สำหรับขยายธุรกิจพลังงาน'},
-    ]
-  },
-  {
-    id:'legal', name:'กันชน', role:'LEGAL & RISK ADVISOR', emoji:'🛡️',
-    color:'#E67E22', gender:'m',
-    desc:'กฎหมาย สัญญา ความเสี่ยง ใบอนุญาต ข้อกำหนด การปฏิบัติตามกฎ',
-    tags:['Contract','Risk','License','Compliance'],
-    past:[
-      {task:'ตรวจสอบสัญญา Partner', date:'มิ.ย. 69'},
-      {task:'ประเมินความเสี่ยงโดเมน lovephonegroup.com', date:'25 มิ.ย.'},
-      {task:'ให้คำปรึกษา EPP code / domain transfer risks', date:'25 มิ.ย.'},
-    ],
-    current:[
-      {task:'ให้คำปรึกษาสัญญา Partner ใหม่', date:'ต่อเนื่อง'},
-    ],
-    pending:[],
-    future:[
-      {task:'สัญญาแฟรนไชส์มาตรฐาน'},
-      {task:'ระบบบริหารสัญญาอิเล็กทรอนิกส์'},
-      {task:'Compliance Checklist ร้านมือถือ'},
-      {task:'สัญญา Solar / พลังงาน'},
-    ]
+const SHEET_ID = '1RQwGRI7nugtHaCwZM8ZoTh9SrhzFjQ5mfUZyok8KjJY';
+const SHEETS_BASE = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=`;
+
+let agents = [];
+
+async function fetchSheet(name) {
+  const res = await fetch(SHEETS_BASE + encodeURIComponent(name));
+  const text = await res.text();
+  const json = JSON.parse(text.match(/google\.visualization\.Query\.setResponse\(([\s\S]+)\);?/)[1]);
+  const cols = json.table.cols.map(c => c.label);
+  return json.table.rows.map(r => {
+    const obj = {};
+    cols.forEach((c, i) => { obj[c] = r.c[i] ? (r.c[i].v ?? '') : ''; });
+    return obj;
+  });
+}
+
+async function loadData() {
+  try {
+    const [agentRows, taskRows, feedRows] = await Promise.all([
+      fetchSheet('agents'), fetchSheet('tasks'), fetchSheet('feed')
+    ]);
+
+    agents = agentRows.map(a => ({
+      id: a.id, name: a.name, role: a.role, emoji: a.emoji,
+      color: a.color, gender: a.gender, desc: a.desc,
+      tags: (a.tags || '').split('|').filter(Boolean),
+      past: [], current: [], pending: [], future: []
+    }));
+
+    taskRows.forEach(t => {
+      const agent = agents.find(a => a.id === t.agent_id);
+      if (!agent) return;
+      const item = { task: t.task, date: t.date || '', note: t.note || '' };
+      if (agent[t.status]) agent[t.status].push(item);
+    });
+
+    const activeCount = agents.filter(a => a.current.length > 0).length;
+    document.getElementById('onlineBadge').textContent = `${activeCount} agents active`;
+
+    renderAgents();
+    renderFeed(feedRows);
+    countTasks();
+
+    const now = new Date();
+    document.getElementById('lastUpdate').textContent =
+      `อัปเดตล่าสุด: ${now.toLocaleDateString('th-TH')} ${now.toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit'})} (live จาก Google Sheets)`;
+
+  } catch (e) {
+    console.error('Failed to load from Sheets:', e);
+    document.getElementById('lastUpdate').textContent = 'โหลดข้อมูลไม่สำเร็จ — กรุณารีเฟรช';
   }
-];
+}
 
 function countTasks() {
   let done=0, active=0, planned=0;
@@ -461,21 +362,13 @@ function renderAgents(filter='all') {
   });
 }
 
-function renderFeed() {
+function renderFeed(feedRows) {
   const feed = document.getElementById('taskFeed');
-  const items = [];
-  agents.forEach(a => {
-    a.current.forEach(t => items.push({agent:a.name, color:a.color, task:t.task, status:'🔄', date:t.date||''}));
-  });
-  agents.forEach(a => {
-    (a.pending||[]).forEach(t => items.push({agent:a.name, color:a.color, task:t.task, status:'⏳', date:t.note||''}));
-  });
-  agents.forEach(a => {
-    a.past.slice(-1).forEach(t => items.push({agent:a.name, color:a.color, task:t.task, status:'✅', date:t.date||''}));
-  });
-  feed.innerHTML = items.map(it => `
+  const agentColorMap = {};
+  agents.forEach(a => { agentColorMap[a.name] = a.color; });
+  feed.innerHTML = feedRows.map(it => `
     <div class="feed-item">
-      <div class="feed-agent" style="color:${it.color}">${it.agent}</div>
+      <div class="feed-agent" style="color:${agentColorMap[it.agent] || '#888'}">${it.agent}</div>
       <div class="feed-task">${it.task}</div>
       <div class="feed-date">${it.date}</div>
       <div class="feed-status">${it.status}</div>
@@ -489,9 +382,8 @@ function filterAgents(filter, el) {
   renderAgents(filter);
 }
 
-renderAgents();
-renderFeed();
-countTasks();
+loadData();
+setInterval(loadData, 5 * 60 * 1000);
 </script>
 </body>
 </html>
