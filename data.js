@@ -2,7 +2,7 @@
    iLovePhone Business Canvas Dashboard — DATA
    แก้ไขไฟล์นี้เพื่ออัปเดตสถานะ Dashboard
    Sub-Agent อัปเดตที่นี่ → CEO รีเฟรช = เห็นล่าสุด
-   อัปเดตล่าสุด: 17 ก.ค. 2026 00:22
+   อัปเดตล่าสุด: 24 ก.ค. 2026 06:40
    ============================================================ */
 
 /* ---------- BMC DATA ---------- */
@@ -69,9 +69,9 @@ const BMC = [
 
 /* ---------- AGENTS DATA ---------- */
 const AGENTS = [
-  {av:"💰",name:'CFO · "ร่ำรวย"',role:"การเงิน · Cash Flow · ROI",duty:"กางตัวเลข ดูต้นทุน กำไร ราคา และความคุ้มค่าทุกการลงทุน",task:"<b>ราคากลาง</b> 2,406 รายการ · <b>บัญชีพาร์ตเนอร์</b> MASTER เสร็จ · <b>สาขาแม่ริม</b> รอเริ่ม",st:"standby",stt:"Standby",q:'"เดี๋ยวผมกางตัวเลขให้ก่อนนะครับท่าน คุ้มไม่คุ้มรู้กัน 💸"'},
+  {av:"💰",name:'CFO · "ร่ำรวย"',role:"การเงิน · Cash Flow · ROI",duty:"กางตัวเลข ดูต้นทุน กำไร ราคา และความคุ้มค่าทุกการลงทุน",task:"<b>ราคากลาง</b> 2,406 รายการ · <b>บัญชีพาร์ตเนอร์</b> MASTER เสร็จ · <b>แก้สูตรคอมฯ 89 พลาซ่า</b> ✅ (23 ก.ค.) · <b>เพิ่มคอลัมน์ O–R</b> สรุปรายเดือน ✅",st:"standby",stt:"แก้สูตรคอมฯ + เพิ่มคอลัมน์เสร็จ",q:'"เดี๋ยวผมกางตัวเลขให้ก่อนนะครับท่าน คุ้มไม่คุ้มรู้กัน 💸"'},
   {av:"📋",name:'COO · "ระเบียบ"',role:"ปฏิบัติการ · SOP · มาตรฐานสาขา",duty:"วางขั้นตอนให้ทำซ้ำได้เป๊ะทุกสาขา ดูแลงานติดตั้งระบบ",task:"<b>Handoff</b> แผนเสร็จ ✅ · <b>OHO Migration</b> แผนเสร็จ",st:"wait",stt:"รอเริ่ม",q:'"ขอจัดเป็นขั้นเป็นตอนนะคะ จะได้ทำซ้ำได้เป๊ะทุกสาขา ✅"'},
-  {av:"💻",name:'CTO · "โค้ด"',role:"เทคนิค · บอต · Server · DNS",duty:"ดูแลบอต LINE, server, automation, โดเมน/DNS",task:"<b>Staff Dashboard</b> v2 ✅ · <b>OCR Stock</b> ✅ · <b>Handoff</b> LIVE ✅ · domain ✅ · lead ✅",st:"active",stt:"Staff Dashboard v2 เสร็จ",q:'"เรื่องนี้จิ๊บ ๆ ค่ะพี่ เดี๋ยวหนูจัดให้ 🛠️"'},
+  {av:"💻",name:'CTO · "โค้ด"',role:"เทคนิค · บอต · Server · DNS · iLovePhone OS",duty:"ดูแลบอต LINE, server, automation, โดเมน/DNS + พัฒนา iLovePhone OS",task:"<b>iLovePhone OS</b> Phase 0-4 ✅ + DB Deploy ✅ · <b>MVP Frontend</b> เชื่อม Supabase (กำลังทำ) · <b>Staff Dashboard</b> v2 ✅ · <b>OCR Stock</b> ✅",st:"active",stt:"iLovePhone OS MVP Frontend",q:'"เรื่องนี้จิ๊บ ๆ ค่ะพี่ เดี๋ยวหนูจัดให้ 🛠️"'},
   {av:"🎨",name:'CMO · "ปัง"',role:"การตลาด · คอนเทนต์ · แบรนด์",duty:"คิดแคมเปญ คอนเทนต์ และดูแลภาพลักษณ์แบรนด์",task:"<b>คอนเทนต์ Academy</b> ทุกวัน 07:30 + FB post · <b>แบรนด์</b> + โซเชียล",st:"active",stt:"คอนเทนต์ทุกวัน",q:'"อันนี้ต้องปังค่ะพี่! เดี๋ยวหนูคิดมุมสนุก ๆ ให้ ✨"'},
   {av:"🚀",name:'Growth · "ไกล"',role:"กลยุทธ์ · ขยายสาขา · แฟรนไชส์",duty:"มองยาว 3-5-10 ปี วางหมากขยายเครือข่ายทั่วประเทศ",task:"<b>สาขาแม่ริม</b> กำลังเปิด · <b>Business Canvas Dashboard</b> ✅ · roadmap แฟรนไชส์",st:"active",stt:"เปิดสาขาแม่ริม",q:'"มองไกลไว้ก่อนครับ ปีนี้วางหมาก ปีหน้าขยาย 🌏"'},
   {av:"🛡️",name:'Legal/Risk · "กันชน"',role:"กฎหมาย · สัญญา · ความเสี่ยง",duty:"เป็นกันชนให้ CEO เตือนความเสี่ยงตรง ๆ ก่อนตัดสินใจ",task:"<b>สัญญาแฟรนไชส์</b> · PDPA ข้อมูลลูกค้า OHO",st:"standby",stt:"Standby",q:'"ขอเบรกตรงนี้ก่อนครับ มีความเสี่ยงที่ต้องชั่งน้ำหนัก ⚠️"'}
@@ -94,13 +94,17 @@ const TL = {
     {when:"10 ก.ค. 2026",t:"Timeline 10 Web Platforms ✅",items:["เพิ่ม Milestone 6 เว็บในเครือ iLovePhone","SVG Workflow + เส้นกระพริบ Active Agent"],badge:"milestone"},
     {when:"13 ก.ค. 2026",t:"เปิดสาขา ปตท.แม่ริม",items:["แฟรนไชส์ใหม่ บันทึกตั้งแต่วันแรก","โครงสร้างไฟล์ template สำหรับสาขาถัดไป","เจ้าของ: Growth·ไกล"],badge:"milestone"},
     {when:"16 ก.ค. 2026",t:"Staff Dashboard ผ่อนมือถือ ✅",items:["ระบบติดตามไฟแนนซ์ลูกค้า ผ่อนมือถือเชียงใหม่.com/staff","Login + แยกสิทธิ์ Admin/Staff + RLS + PDF","SECURITY DEFINER functions 7 ตัว bypass RLS","แยกยี่ห้อ 18 แบรนด์ + dropdown"],badge:"launch"},
-    {when:"17 ก.ค. 2026",t:"Staff Dashboard v2 ✅",items:["แก้ RLS infinite recursion + Google OAuth","ลบ Lovable branding (favicon + tagger)","เพิ่มตัวกรองวันที่ + ดาวน์โหลด CSV (Admin)","แยกคอลัมน์ยี่ห้อ/รุ่น ค้นหาง่ายขึ้น"],badge:"launch"}
+    {when:"17 ก.ค. 2026",t:"Staff Dashboard v2 ✅",items:["แก้ RLS infinite recursion + Google OAuth","ลบ Lovable branding (favicon + tagger)","เพิ่มตัวกรองวันที่ + ดาวน์โหลด CSV (Admin)","แยกคอลัมน์ยี่ห้อ/รุ่น ค้นหาง่ายขึ้น"],badge:"launch"},
+    {when:"18–19 ก.ค. 2026",t:"iLovePhone OS Phase 0–4 ✅",items:["ระบบปฏิบัติการธุรกิจ SaaS แทน SeniorSoft","Phase 0: Auth + Layout + CI Brand + Settings","Phase 1: Product + POS + เปิด-ปิดกะ + ใบเสร็จ 80mm","Phase 2: Inventory + Receiving + Expenses + Petty Cash","Phase 3: Customer 360 + Repair + Membership + Points","Phase 4: Double-entry Accounting + Reports","เจ้าของ: CTO·โค้ด · Pilot: สาขา ปตท.แม่ริม"],badge:"milestone"},
+    {when:"21 ก.ค. 2026",t:"iLovePhone OS — Unified DB Deploy ✅",items:["Unified Customer + Product schema บน Supabase","UUID PK + multi-phone + key-value attributes","v_customer_360 retarget view + PDPA + audit","Deploy สำเร็จ project uhmmaihvkjvueptxfhgp"],badge:"launch"},
+    {when:"23 ก.ค. 2026",t:"แก้สูตรคอมฯ พาร์ทเนอร์ 89 พลาซ่า ✅",items:["แก้สูตร SUMPRODUCT สรุปรายเดือน ↔ เคลียร์บิล-โมเดลใหม่","เปลี่ยนคอลัมน์สีส้มเป็น 'รายได้พาร์ทเนอร์ 70%'","เพิ่มคอลัมน์ O–R (ยอดขาย/ต้นทุน/ค่าธรรมเนียม/จำนวนเครื่อง)","ซ่อนแท็บคอมมิชชัน (ข้อมูลไม่หาย)","เจ้าของ: CFO·ร่ำรวย"],badge:"launch"}
   ],
   now:[
+    {when:"กำลังทำ",t:"iLovePhone OS — MVP Frontend เชื่อม Supabase",items:["Auth จริง (Supabase Auth + user_profiles + RLS tenant)","Products + Categories CRUD จริง","POS เชื่อม DB จริง (sale + stock_movements + find_or_create_customer)","Build + Deploy Cloudflare Pages → app.lovephonegroup.com","Pilot: สาขา ปตท.แม่ริม"],owner:"CTO·โค้ด",progress:30},
     {when:"กำลังทำ",t:"Staff Dashboard — งานค้าง",items:["แก้ Supabase URL Config (Punycode ถูกต้อง)","เพิ่ม mr.khunphol@gmail.com เป็น Google OAuth test user","ทดสอบ Google Login หลังแก้ URL"],owner:"CEO",progress:60},
-    {when:"กำลังทำ",t:"เปิดสาขา ปตท.แม่ริม",items:["โคลนระบบบัญชี MASTER จาก 89 พลาซ่า","SOP/มาตรฐานสาขา/อุปกรณ์","ระบบ IT (SeniorSoft/LINE/ปิดยอด)","สัญญาแฟรนไชส์/ใบอนุญาต","บันทึกค่าใช้จ่ายทุกบาทตั้งแต่วันแรก"],owner:"Growth·ไกล + ทุก Agent",progress:15},
+    {when:"กำลังทำ",t:"เปิดสาขา ปตท.แม่ริม",items:["โคลนระบบบัญชี MASTER จาก 89 พลาซ่า","SOP/มาตรฐานสาขา/อุปกรณ์","ระบบ IT (iLovePhone OS แทน SeniorSoft)","สัญญาแฟรนไชส์/ใบอนุญาต","บันทึกค่าใช้จ่ายทุกบาทตั้งแต่วันแรก"],owner:"Growth·ไกล + ทุก Agent",progress:15},
     {when:"แผนเสร็จ",t:"OHO Migration",items:["ย้าย @ilovephone (ฐาน 15k) มาบอตใหม่","ผ่าน OHO gateway — ระวังข้อมูล/PDPA","รอ CEO อนุมัติเริ่ม"],owner:"CTO·โค้ด + COO·ระเบียบ",progress:10},
-    {when:"รอข้อมูล",t:"ระบบบัญชีพาร์ตเนอร์ 89 พลาซ่า",items:["รอข้อมูลครบ 3–6 เดือนจาก CEO","MASTER 10 ชีท + ARCHITECTURE.md เสร็จแล้ว"],owner:"CFO·ร่ำรวย",progress:20}
+    {when:"รอข้อมูล",t:"ระบบบัญชีพาร์ตเนอร์ 89 พลาซ่า",items:["สูตรเชื่อมโยงสรุปรายเดือน ↔ เคลียร์บิล ✅ (23 ก.ค.)","คอลัมน์ O–R เพิ่มแล้ว ✅","รอข้อมูลจริง — ลบแถวตัวอย่าง 3 แถว แล้วกรอกเครื่องจริง","MASTER 10 ชีท + ARCHITECTURE.md เสร็จแล้ว"],owner:"CFO·ร่ำรวย",progress:35}
   ],
   future:[
     {when:"ระยะ 1 ปี",t:"ปักหมุดมาตรฐาน",items:["ทำ SOP สาขาให้ทำซ้ำได้เป๊ะ","AI Bot ครบทุก use-case (ขาย/ซ่อม/ผ่อน)","ปิด migration OHO + รวมฐานลูกค้า 15k","Dashboard การเงิน/ปฏิบัติการเรียลไทม์"]},
@@ -111,6 +115,6 @@ const TL = {
 
 /* ---------- DASHBOARD META ---------- */
 const DASH_META = {
-  updatedAt: "17 ก.ค. 2026 00:22",
+  updatedAt: "24 ก.ค. 2026 06:40",
   updatedBy: "น้องเลิฟ"
 };
