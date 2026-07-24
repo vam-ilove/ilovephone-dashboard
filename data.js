@@ -2,7 +2,7 @@
    iLovePhone Business Canvas Dashboard — DATA
    แก้ไขไฟล์นี้เพื่ออัปเดตสถานะ Dashboard
    Sub-Agent อัปเดตที่นี่ → CEO รีเฟรช = เห็นล่าสุด
-   อัปเดตล่าสุด: 24 ก.ค. 2026 06:40
+   อัปเดตล่าสุด: 24 ก.ค. 2026 10:15
    ============================================================ */
 
 /* ---------- BMC DATA ---------- */
@@ -97,10 +97,11 @@ const TL = {
     {when:"17 ก.ค. 2026",t:"Staff Dashboard v2 ✅",items:["แก้ RLS infinite recursion + Google OAuth","ลบ Lovable branding (favicon + tagger)","เพิ่มตัวกรองวันที่ + ดาวน์โหลด CSV (Admin)","แยกคอลัมน์ยี่ห้อ/รุ่น ค้นหาง่ายขึ้น"],badge:"launch"},
     {when:"18–19 ก.ค. 2026",t:"iLovePhone OS Phase 0–4 ✅",items:["ระบบปฏิบัติการธุรกิจ SaaS แทน SeniorSoft","Phase 0: Auth + Layout + CI Brand + Settings","Phase 1: Product + POS + เปิด-ปิดกะ + ใบเสร็จ 80mm","Phase 2: Inventory + Receiving + Expenses + Petty Cash","Phase 3: Customer 360 + Repair + Membership + Points","Phase 4: Double-entry Accounting + Reports","เจ้าของ: CTO·โค้ด · Pilot: สาขา ปตท.แม่ริม"],badge:"milestone"},
     {when:"21 ก.ค. 2026",t:"iLovePhone OS — Unified DB Deploy ✅",items:["Unified Customer + Product schema บน Supabase","UUID PK + multi-phone + key-value attributes","v_customer_360 retarget view + PDPA + audit","Deploy สำเร็จ project uhmmaihvkjvueptxfhgp"],badge:"launch"},
-    {when:"23 ก.ค. 2026",t:"แก้สูตรคอมฯ พาร์ทเนอร์ 89 พลาซ่า ✅",items:["แก้สูตร SUMPRODUCT สรุปรายเดือน ↔ เคลียร์บิล-โมเดลใหม่","เปลี่ยนคอลัมน์สีส้มเป็น 'รายได้พาร์ทเนอร์ 70%'","เพิ่มคอลัมน์ O–R (ยอดขาย/ต้นทุน/ค่าธรรมเนียม/จำนวนเครื่อง)","ซ่อนแท็บคอมมิชชัน (ข้อมูลไม่หาย)","เจ้าของ: CFO·ร่ำรวย"],badge:"launch"}
+    {when:"23 ก.ค. 2026",t:"แก้สูตรคอมฯ พาร์ทเนอร์ 89 พลาซ่า ✅",items:["แก้สูตร SUMPRODUCT สรุปรายเดือน ↔ เคลียร์บิล-โมเดลใหม่","เปลี่ยนคอลัมน์สีส้มเป็น 'รายได้พาร์ทเนอร์ 70%'","เพิ่มคอลัมน์ O–R (ยอดขาย/ต้นทุน/ค่าธรรมเนียม/จำนวนเครื่อง)","ซ่อนแท็บคอมมิชชัน (ข้อมูลไม่หาย)","เจ้าของ: CFO·ร่ำรวย"],badge:"launch"},
+    {when:"24 ก.ค. 2026",t:"iLovePhone OS — Auth + Supabase Integration ✅",items:["Auth จริง: Login/Signup email + Google OAuth เชื่อม Supabase","Products/POS/Customers CRUD เชื่อม DB จริง","Signup flow + notice banner + email verification","Build ผ่าน TS error-free · git init + first commit","เจ้าของ: CTO·โค้ด"],badge:"launch"}
   ],
   now:[
-    {when:"กำลังทำ",t:"iLovePhone OS — MVP Frontend เชื่อม Supabase",items:["Auth จริง (Supabase Auth + user_profiles + RLS tenant)","Products + Categories CRUD จริง","POS เชื่อม DB จริง (sale + stock_movements + find_or_create_customer)","Build + Deploy Cloudflare Pages → app.lovephonegroup.com","Pilot: สาขา ปตท.แม่ริม"],owner:"CTO·โค้ด",progress:30},
+    {when:"กำลังทำ",t:"iLovePhone OS — MVP Frontend เชื่อม Supabase",items:["✅ Auth จริง (Login/Signup/Google OAuth + user_profiles + RLS tenant)","✅ Products CRUD จริง + mappers DB↔UI + fallback mock","✅ POS เชื่อมสต๊อกจริง (imei_stock + stock_levels)","✅ Customers CRUD จริง (multi-phone + multi-address)","✅ DB Context tenant isolation + RLS","กำลังทำ: Products CRUD เต็มรูปแบบ (categories + IMEI + permissions)","ถัดไป: POS เชื่อม sale + stock_movements จริง","ถัดไป: Deploy Cloudflare Pages → app.lovephonegroup.com","Pilot: สาขา ปตท.แม่ริม"],owner:"CTO·โค้ด",progress:70},
     {when:"กำลังทำ",t:"Staff Dashboard — งานค้าง",items:["แก้ Supabase URL Config (Punycode ถูกต้อง)","เพิ่ม mr.khunphol@gmail.com เป็น Google OAuth test user","ทดสอบ Google Login หลังแก้ URL"],owner:"CEO",progress:60},
     {when:"กำลังทำ",t:"เปิดสาขา ปตท.แม่ริม",items:["โคลนระบบบัญชี MASTER จาก 89 พลาซ่า","SOP/มาตรฐานสาขา/อุปกรณ์","ระบบ IT (iLovePhone OS แทน SeniorSoft)","สัญญาแฟรนไชส์/ใบอนุญาต","บันทึกค่าใช้จ่ายทุกบาทตั้งแต่วันแรก"],owner:"Growth·ไกล + ทุก Agent",progress:15},
     {when:"แผนเสร็จ",t:"OHO Migration",items:["ย้าย @ilovephone (ฐาน 15k) มาบอตใหม่","ผ่าน OHO gateway — ระวังข้อมูล/PDPA","รอ CEO อนุมัติเริ่ม"],owner:"CTO·โค้ด + COO·ระเบียบ",progress:10},
