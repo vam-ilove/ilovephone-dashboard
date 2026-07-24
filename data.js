@@ -71,7 +71,7 @@ const BMC = [
 const AGENTS = [
   {av:"💰",name:'CFO · "ร่ำรวย"',role:"การเงิน · Cash Flow · ROI",duty:"กางตัวเลข ดูต้นทุน กำไร ราคา และความคุ้มค่าทุกการลงทุน",task:"<b>ราคากลาง</b> 2,406 รายการ · <b>บัญชีพาร์ตเนอร์</b> MASTER เสร็จ · <b>แก้สูตรคอมฯ 89 พลาซ่า</b> ✅ (23 ก.ค.) · <b>เพิ่มคอลัมน์ O–R</b> สรุปรายเดือน ✅",st:"standby",stt:"แก้สูตรคอมฯ + เพิ่มคอลัมน์เสร็จ",q:'"เดี๋ยวผมกางตัวเลขให้ก่อนนะครับท่าน คุ้มไม่คุ้มรู้กัน 💸"'},
   {av:"📋",name:'COO · "ระเบียบ"',role:"ปฏิบัติการ · SOP · มาตรฐานสาขา",duty:"วางขั้นตอนให้ทำซ้ำได้เป๊ะทุกสาขา ดูแลงานติดตั้งระบบ",task:"<b>Handoff</b> แผนเสร็จ ✅ · <b>OHO Migration</b> แผนเสร็จ",st:"wait",stt:"รอเริ่ม",q:'"ขอจัดเป็นขั้นเป็นตอนนะคะ จะได้ทำซ้ำได้เป๊ะทุกสาขา ✅"'},
-  {av:"💻",name:'CTO · "โค้ด"',role:"เทคนิค · บอต · Server · DNS · iLovePhone OS",duty:"ดูแลบอต LINE, server, automation, โดเมน/DNS + พัฒนา iLovePhone OS",task:"<b>iLovePhone OS</b> Phase 0-4 ✅ + DB Deploy ✅ · <b>MVP Frontend</b> เชื่อม Supabase (กำลังทำ) · <b>Staff Dashboard</b> v2 ✅ · <b>OCR Stock</b> ✅",st:"active",stt:"iLovePhone OS MVP Frontend",q:'"เรื่องนี้จิ๊บ ๆ ค่ะพี่ เดี๋ยวหนูจัดให้ 🛠️"'},
+  {av:"💻",name:'CTO · "โค้ด"',role:"เทคนิค · บอต · Server · DNS · iLovePhone OS",duty:"ดูแลบอต LINE, server, automation, โดเมน/DNS + พัฒนา iLovePhone OS",task:"<b>iLovePhone OS</b> Auth+Products+POS+Customers เชื่อม Supabase ✅ · <b>เตรียม Deploy</b> (seed+test+Cloudflare) · <b>Staff Dashboard</b> v2 ✅ · <b>OCR Stock</b> ✅",st:"active",stt:"iLovePhone OS เตรียม Deploy",q:'"เรื่องนี้จิ๊บ ๆ ค่ะพี่ เดี๋ยวหนูจัดให้ 🛠️"'},
   {av:"🎨",name:'CMO · "ปัง"',role:"การตลาด · คอนเทนต์ · แบรนด์",duty:"คิดแคมเปญ คอนเทนต์ และดูแลภาพลักษณ์แบรนด์",task:"<b>คอนเทนต์ Academy</b> ทุกวัน 07:30 + FB post · <b>แบรนด์</b> + โซเชียล",st:"active",stt:"คอนเทนต์ทุกวัน",q:'"อันนี้ต้องปังค่ะพี่! เดี๋ยวหนูคิดมุมสนุก ๆ ให้ ✨"'},
   {av:"🚀",name:'Growth · "ไกล"',role:"กลยุทธ์ · ขยายสาขา · แฟรนไชส์",duty:"มองยาว 3-5-10 ปี วางหมากขยายเครือข่ายทั่วประเทศ",task:"<b>สาขาแม่ริม</b> กำลังเปิด · <b>Business Canvas Dashboard</b> ✅ · roadmap แฟรนไชส์",st:"active",stt:"เปิดสาขาแม่ริม",q:'"มองไกลไว้ก่อนครับ ปีนี้วางหมาก ปีหน้าขยาย 🌏"'},
   {av:"🛡️",name:'Legal/Risk · "กันชน"',role:"กฎหมาย · สัญญา · ความเสี่ยง",duty:"เป็นกันชนให้ CEO เตือนความเสี่ยงตรง ๆ ก่อนตัดสินใจ",task:"<b>สัญญาแฟรนไชส์</b> · PDPA ข้อมูลลูกค้า OHO",st:"standby",stt:"Standby",q:'"ขอเบรกตรงนี้ก่อนครับ มีความเสี่ยงที่ต้องชั่งน้ำหนัก ⚠️"'}
@@ -101,7 +101,7 @@ const TL = {
     {when:"24 ก.ค. 2026",t:"iLovePhone OS — Auth + Supabase Integration ✅",items:["Auth จริง: Login/Signup email + Google OAuth เชื่อม Supabase","Products/POS/Customers CRUD เชื่อม DB จริง","Signup flow + notice banner + email verification","Build ผ่าน TS error-free · git init + first commit","เจ้าของ: CTO·โค้ด"],badge:"launch"}
   ],
   now:[
-    {when:"กำลังทำ",t:"iLovePhone OS — MVP Frontend เชื่อม Supabase",items:["✅ Auth จริง (Login/Signup/Google OAuth + user_profiles + RLS tenant)","✅ Products CRUD จริง + mappers DB↔UI + fallback mock","✅ POS เชื่อมสต๊อกจริง (imei_stock + stock_levels)","✅ Customers CRUD จริง (multi-phone + multi-address)","✅ DB Context tenant isolation + RLS","กำลังทำ: Products CRUD เต็มรูปแบบ (categories + IMEI + permissions)","ถัดไป: POS เชื่อม sale + stock_movements จริง","ถัดไป: Deploy Cloudflare Pages → app.lovephonegroup.com","Pilot: สาขา ปตท.แม่ริม"],owner:"CTO·โค้ด",progress:70},
+    {when:"กำลังทำ",t:"iLovePhone OS — เตรียม Deploy",items:["✅ Auth จริง (Login/Signup/Google OAuth + auto-create profile)","✅ Products CRUD จริง (categories + IMEI + mappers + tenant isolation)","✅ POS เชื่อมสต๊อกจริง (imei_stock + stock_levels) ปิด mock แล้ว","✅ Customers CRUD จริง (multi-phone + multi-address)","✅ DB Context tenant isolation + RLS + getMyContext","ถัดไป: Seed ข้อมูลจริง (สินค้า + หมวดหมู่ + สาขา ปตท.แม่ริม)","ถัดไป: ทดสอบ end-to-end บน Supabase จริง","ถัดไป: Deploy Cloudflare Pages → app.lovephonegroup.com","Pilot: สาขา ปตท.แม่ริม"],owner:"CTO·โค้ด",progress:80},
     {when:"กำลังทำ",t:"Staff Dashboard — งานค้าง",items:["แก้ Supabase URL Config (Punycode ถูกต้อง)","เพิ่ม mr.khunphol@gmail.com เป็น Google OAuth test user","ทดสอบ Google Login หลังแก้ URL"],owner:"CEO",progress:60},
     {when:"กำลังทำ",t:"เปิดสาขา ปตท.แม่ริม",items:["โคลนระบบบัญชี MASTER จาก 89 พลาซ่า","SOP/มาตรฐานสาขา/อุปกรณ์","ระบบ IT (iLovePhone OS แทน SeniorSoft)","สัญญาแฟรนไชส์/ใบอนุญาต","บันทึกค่าใช้จ่ายทุกบาทตั้งแต่วันแรก"],owner:"Growth·ไกล + ทุก Agent",progress:15},
     {when:"แผนเสร็จ",t:"OHO Migration",items:["ย้าย @ilovephone (ฐาน 15k) มาบอตใหม่","ผ่าน OHO gateway — ระวังข้อมูล/PDPA","รอ CEO อนุมัติเริ่ม"],owner:"CTO·โค้ด + COO·ระเบียบ",progress:10},
@@ -116,6 +116,6 @@ const TL = {
 
 /* ---------- DASHBOARD META ---------- */
 const DASH_META = {
-  updatedAt: "24 ก.ค. 2026 06:40",
+  updatedAt: "24 ก.ค. 2026 07:40",
   updatedBy: "น้องเลิฟ"
 };
