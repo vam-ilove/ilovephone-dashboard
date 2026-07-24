@@ -116,6 +116,6 @@ const TL = {
 
 /* ---------- DASHBOARD META ---------- */
 const DASH_META = {
-  updatedAt: "24 ก.ค. 2026 07:40",
+  updatedAt: "24 ก.ค. 2026 10:30",
   updatedBy: "น้องเลิฟ"
 };
